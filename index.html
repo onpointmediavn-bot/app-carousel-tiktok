@@ -1184,7 +1184,7 @@
                 <div style="flex: 1; margin-bottom: 0.75rem;">
                   <label class="control-label">Dịch ngang X</label>
                   <div class="slider-container">
-                    <input type="range" class="slider-input" id="img-x" min="-150" max="150" step="1" value="0"
+                    <input type="range" class="slider-input" id="img-x" min="-300" max="300" step="1" value="0"
                       oninput="updateImageTransform()">
                     <span class="slider-value" id="val-img-x">0px</span>
                   </div>
@@ -1192,7 +1192,7 @@
                 <div style="flex: 1; margin-bottom: 0.75rem;">
                   <label class="control-label">Dịch dọc Y</label>
                   <div class="slider-container">
-                    <input type="range" class="slider-input" id="img-y" min="-150" max="150" step="1" value="0"
+                    <input type="range" class="slider-input" id="img-y" min="-300" max="300" step="1" value="0"
                       oninput="updateImageTransform()">
                     <span class="slider-value" id="val-img-y">0px</span>
                   </div>
@@ -1799,6 +1799,114 @@
       if (viewport) {
         viewport.addEventListener('dragover', (e) => e.preventDefault());
         viewport.addEventListener('drop', handleFileDrop);
+
+        // Direct drag and touch position adjustment for the active slide image
+        let isDraggingImage = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let imageStartX = 0;
+        let imageStartY = 0;
+
+        // Add visual grab cursor if an image is loaded
+        viewport.addEventListener('mouseenter', () => {
+          const slide = appState.slides.find(s => s.id === appState.activeSlideId);
+          if (slide && slide.image) {
+            viewport.style.cursor = 'grab';
+          } else {
+            viewport.style.cursor = 'default';
+          }
+        });
+
+        // Start Dragging
+        const startDrag = (clientX, clientY) => {
+          const slide = appState.slides.find(s => s.id === appState.activeSlideId);
+          if (!slide || !slide.image) return;
+
+          isDraggingImage = true;
+          dragStartX = clientX;
+          dragStartY = clientY;
+          imageStartX = slide.imageX || 0;
+          imageStartY = slide.imageY || 0;
+          viewport.style.cursor = 'grabbing';
+        };
+
+        viewport.addEventListener('mousedown', (e) => {
+          // Only drag with left click
+          if (e.button !== 0) return;
+          startDrag(e.clientX, e.clientY);
+          e.preventDefault();
+        });
+
+        viewport.addEventListener('touchstart', (e) => {
+          if (e.touches && e.touches[0]) {
+            startDrag(e.touches[0].clientX, e.touches[0].clientY);
+            if (e.cancelable) e.preventDefault();
+          }
+        }, { passive: false });
+
+        // Moving Drag
+        const moveDrag = (clientX, clientY) => {
+          if (!isDraggingImage) return;
+          const slide = appState.slides.find(s => s.id === appState.activeSlideId);
+          if (!slide) return;
+
+          const dx = clientX - dragStartX;
+          const dy = clientY - dragStartY;
+
+          // Convert screen pixels to SVG coordinates (box width is 330px in SVG, viewport width is variable)
+          const scaleFactor = 330 / viewport.clientWidth;
+          
+          let newX = Math.round(imageStartX + dx * scaleFactor);
+          let newY = Math.round(imageStartY + dy * scaleFactor);
+
+          // Constrain coordinates to expanded boundaries [-300, 300]
+          newX = Math.max(-300, Math.min(300, newX));
+          newY = Math.max(-300, Math.min(300, newY));
+
+          slide.imageX = newX;
+          slide.imageY = newY;
+
+          // Update sidebar inputs in real-time
+          const inputX = document.getElementById('img-x');
+          const inputY = document.getElementById('img-y');
+          if (inputX) {
+            inputX.value = newX;
+            document.getElementById('val-img-x').innerText = newX + 'px';
+          }
+          if (inputY) {
+            inputY.value = newY;
+            document.getElementById('val-img-y').innerText = newY + 'px';
+          }
+
+          // Redraw canvas active slide in real-time
+          renderActiveSlide();
+        };
+
+        window.addEventListener('mousemove', (e) => {
+          if (isDraggingImage) {
+            moveDrag(e.clientX, e.clientY);
+          }
+        });
+
+        window.addEventListener('touchmove', (e) => {
+          if (isDraggingImage && e.touches && e.touches[0]) {
+            moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+            if (e.cancelable) e.preventDefault();
+          }
+        }, { passive: false });
+
+        // End Dragging
+        const endDrag = () => {
+          if (isDraggingImage) {
+            isDraggingImage = false;
+            viewport.style.cursor = 'grab';
+            renderThumbnails(); // Redraw thumbs once finished dragging
+          }
+        };
+
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
+        window.addEventListener('touchcancel', endDrag);
       }
 
       // Add drag and drop listeners for the sidebar file upload zone
