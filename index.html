@@ -1,0 +1,3111 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok Carousel Pro Creator - Cinematic Editor</title>
+
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Roboto+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons for Premium UI -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ==========================================
+       DESIGN SYSTEM & VARIABLES
+       ========================================== */
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+      --font-mono: 'Roboto Mono', monospace;
+
+      /* UI Theme (Dark Editorial Theme like Figma/Adobe Lightroom) */
+      --bg-app: #09090b;
+      --bg-panel: #121215;
+      --bg-input: #1c1c21;
+      --border-panel: #27272a;
+      --border-input: #3f3f46;
+
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+
+      --color-brand: #ef9f27;
+      /* Amber default */
+      --color-brand-glow: rgba(239, 159, 39, 0.15);
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+
+      --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.02);
+      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Global resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-panel) transparent;
+    }
+
+    *::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: var(--border-panel);
+      border-radius: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--border-input);
+    }
+
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      overflow-hidden: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================
+       LAYOUT STRUCTURE
+       ========================================== */
+    header {
+      background-color: var(--bg-panel);
+      border-bottom: 1px solid var(--border-panel);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--color-brand), #ff5e62);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: bold;
+      font-size: 18px;
+      box-shadow: 0 0 15px var(--color-brand-glow);
+    }
+
+    .logo-text h1 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition-smooth);
+    }
+
+    .btn:hover {
+      background-color: var(--border-panel);
+      border-color: var(--text-tertiary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-brand), #f59e0b);
+      border: none;
+      color: #0d0d0c;
+      font-weight: 600;
+      box-shadow: 0 4px 12px var(--color-brand-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fbbf24, var(--color-brand));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(239, 159, 39, 0.3);
+    }
+
+    /* Main Workspace */
+    .app-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      height: calc(100vh - 60px);
+    }
+
+    /* LEFT SIDEBAR: Page list navigator */
+    .slide-navigator {
+      width: 150px;
+      background-color: #0b0b0d;
+      border-right: 1px solid var(--border-panel);
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 0.5rem;
+      overflow-y: auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-header {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    /* PREMIUM MINI CANVA TEMPLATE STYLES */
+    .template-thumb-card {
+      width: 110px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border-radius: var(--radius-md);
+      transition: var(--transition-smooth);
+    }
+
+    .template-thumb-card:hover .template-preview {
+      border-color: var(--text-secondary);
+      transform: translateY(-2px);
+    }
+
+    .template-preview {
+      width: 90px;
+      height: 120px;
+      border: 2px solid var(--border-panel);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .template-title {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-align: center;
+      line-height: 1.2;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slide-thumb-card {
+      width: 110px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border-radius: var(--radius-md);
+      transition: var(--transition-smooth);
+    }
+
+    .slide-thumb-card:hover .thumb-preview {
+      border-color: var(--text-secondary);
+      transform: translateY(-2px);
+    }
+
+    .slide-thumb-card.active .thumb-preview {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 12px var(--color-brand-glow);
+      transform: translateY(-2px);
+    }
+
+    .slide-thumb-card.active .thumb-title {
+      color: var(--color-brand);
+      font-weight: 600;
+    }
+
+    .thumb-preview {
+      width: 90px;
+      height: 120px;
+      /* 3:4 aspect ratio */
+      border: 2px solid var(--border-panel);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background-color: #000;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+
+    .thumb-preview svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .thumb-title {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .thumb-actions {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition-smooth);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide-thumb-card:hover .thumb-actions {
+      opacity: 1;
+    }
+
+    .btn-add-slide {
+      width: 80px;
+      height: 80px;
+      border: 2px dashed var(--border-input);
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-add-slide:hover {
+      border-color: var(--color-brand);
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* CENTER CANVAS: Active page rendering */
+    .canvas-container {
+      flex: 1;
+      background-color: #16161a;
+      background-image: radial-gradient(var(--border-panel) 1px, transparent 1px);
+      background-size: 20px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: auto;
+    }
+
+    .canvas-viewport {
+      width: 375px;
+      /* Premium visual size representing standard phone screen */
+      height: 500px;
+      /* 3:4 ratio */
+      background-color: #000;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-premium);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+      border: 1px solid var(--border-panel);
+    }
+
+    .canvas-viewport svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-controls {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* RIGHT SIDEBAR: Parameter Editing and Panel Tabs */
+    .editor-sidebar {
+      width: 380px;
+      background-color: var(--bg-panel);
+      border-left: 1px solid var(--border-panel);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border-panel);
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 0.9rem 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition-smooth);
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.01);
+    }
+
+    .tab-btn.active {
+      color: var(--color-brand);
+      border-bottom-color: var(--color-brand);
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .tab-content-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==========================================
+       FORM CONTROLS & STYLING
+       ========================================== */
+    .setting-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .setting-group-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .text-input,
+    .select-input {
+      width: 100%;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-primary);
+      padding: 0.65rem 0.85rem;
+      font-size: 13px;
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: var(--transition-smooth);
+      font-family: var(--font-sans);
+    }
+
+    .text-input:focus,
+    .select-input:focus {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px var(--color-brand-glow);
+    }
+
+    textarea.text-input {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    /* Presets and Grids */
+    .grid-presets {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .preset-card {
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .preset-card:hover {
+      border-color: var(--text-secondary);
+      transform: translateY(-1px);
+    }
+
+    .preset-card.active {
+      border-color: var(--color-brand);
+      background-color: var(--color-brand-glow);
+    }
+
+    .preset-card h4 {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: var(--text-primary);
+    }
+
+    .preset-card p {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+
+    /* Slider styling */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-input {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-input);
+      outline: none;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--color-brand);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--color-brand-glow);
+      transition: var(--transition-smooth);
+    }
+
+    .slider-input::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .slider-value {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      width: 35px;
+      text-align: right;
+    }
+
+    /* File upload button custom style */
+    .file-upload-zone {
+      border: 2px dashed var(--border-input);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      background-color: rgba(255, 255, 255, 0.01);
+    }
+
+    .file-upload-zone:hover {
+      border-color: var(--color-brand);
+      background-color: var(--color-brand-glow);
+    }
+
+    .file-upload-zone input[type="file"] {
+      display: none;
+    }
+
+    .file-upload-icon {
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .file-upload-zone p {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .file-upload-zone span {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* Color picker grouping */
+    .color-pickers-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .color-picker-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-md);
+    }
+
+    .color-picker-input {
+      -webkit-appearance: none;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+    }
+
+    .color-picker-input::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker-input::-webkit-color-swatch {
+      border: 1px solid var(--border-panel);
+      border-radius: 50%;
+    }
+
+    .color-picker-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Quick Action Panel footer in sidebar */
+    .sidebar-footer {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-panel);
+      background-color: rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Helper notification block */
+    .helper-card {
+      background-color: rgba(30, 41, 59, 0.3);
+      border: 0.5px solid #1e293b;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .helper-card svg {
+      color: var(--color-brand);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Flowing layout guide at bottom */
+    .flow-guide {
+      background-color: #0d0d0f;
+      border-top: 1px solid var(--border-panel);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      align-items: center;
+      white-space: nowrap;
+      height: 70px;
+    }
+
+    .flow-step-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .flow-step-dot.completed {
+      color: var(--text-secondary);
+    }
+
+    .flow-step-dot.active {
+      color: var(--color-brand);
+      font-weight: bold;
+    }
+
+    .flow-arrow {
+      color: var(--border-input);
+    }
+
+    /* Image filter preview pills */
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 0;
+    }
+
+    .filter-pill {
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-secondary);
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      font-size: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition-smooth);
+    }
+
+    .filter-pill:hover {
+      border-color: var(--text-secondary);
+    }
+
+    .filter-pill.active {
+      background-color: var(--color-brand);
+      color: #000;
+      border-color: var(--color-brand);
+      font-weight: 600;
+    }
+
+    /* Ratio selector buttons styling */
+    .ratio-selectors {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .ratio-btn {
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-secondary);
+      padding: 0.45rem 0.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .ratio-btn:hover {
+      border-color: var(--color-brand);
+      color: var(--text-primary);
+    }
+
+    .ratio-btn.active {
+      background-color: var(--color-brand-glow);
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+      font-weight: 600;
+    }
+
+    /* Toast notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #10b981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       HEADER TOOLBAR
+       ========================================== -->
+  <header>
+    <div class="logo-area">
+      <div class="logo-icon"><i data-lucide="sparkles" style="width: 16px; height: 16px;"></i></div>
+      <div class="logo-text">
+        <h1>TIKTOK CAROUSEL PRO</h1>
+        <span>Bộ công cụ tạo ảnh Cinematic & Documentary</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn" onclick="loadSamplePreset('quockhanh')">
+        <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+        Đặt lại Demo gốc (Bộ Công An)
+      </button>
+      <button class="btn" onclick="loadSamplePreset('marketing')">
+        <i data-lucide="book-open" style="width: 14px; height: 14px;"></i>
+        Nạp Demo Mới: Bài học 22 tuổi
+      </button>
+      <button class="btn btn-primary" onclick="exportAllAsPNGs()">
+        <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+        Tải Xuất Loạt HD PNG (1080x1440)
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       MAIN EDITOR WORKSPACE
+       ========================================== -->
+  <div class="app-workspace">
+
+    <!-- LEFT COLUMN: Mini Slide Navigator with Canva Tabs -->
+    <div class="slide-navigator">
+      <!-- Sidebar Tab Header -->
+      <div class="sidebar-tabs" style="display: flex; width: 100%; border-bottom: 1px solid var(--border-panel); margin-bottom: 8px;">
+        <div class="sidebar-tab active" onclick="switchSidebarTab('slides')" id="tab-btn-slides" style="flex: 1; padding: 10px 4px; font-size: 11px; font-weight: 700; color: var(--color-brand); text-align: center; cursor: pointer; border-bottom: 2px solid var(--color-brand); text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">
+          Slides
+        </div>
+        <div class="sidebar-tab" onclick="switchSidebarTab('templates')" id="tab-btn-templates" style="flex: 1; padding: 10px 4px; font-size: 11px; font-weight: 700; color: var(--text-tertiary); text-align: center; cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease;">
+          Mẫu Đẹp
+        </div>
+      </div>
+
+      <!-- Slide List Content Pane -->
+      <div id="pane-slides" class="sidebar-pane" style="display: flex; flex-direction: column; width: 100%; align-items: center; gap: 12px;">
+        <div id="slide-thumbnails-list"
+          style="display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
+          <!-- Slide Thumbnails are dynamically generated here -->
+        </div>
+
+        <button class="btn-add-slide" onclick="addNewSlide()" style="width: 100%; margin-top: 10px;">
+          <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+          Thêm Slide
+        </button>
+      </div>
+
+      <!-- Canva Mini Templates Pane -->
+      <div id="pane-templates" class="sidebar-pane" style="display: none; flex-direction: column; width: 100%; align-items: center; gap: 12px;">
+        <!-- Add Template Actions -->
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; padding: 4px; box-sizing: border-box; border-bottom: 1px dashed var(--border-panel); padding-bottom: 12px; margin-bottom: 4px;">
+          <button class="btn btn-primary" onclick="triggerSaveCurrentAsTemplate()" style="width: 100%; justify-content: center; padding: 8px; font-size: 11px; font-weight: 600; gap: 6px; border-radius: var(--radius-sm);">
+            <i data-lucide="folder-heart" style="width: 14px; height: 14px;"></i>
+            Lưu slide thành mẫu
+          </button>
+          <button class="btn" onclick="triggerImportTemplateJSON()" style="width: 100%; justify-content: center; padding: 8px; font-size: 11px; font-weight: 600; gap: 6px; border: 1px dashed var(--border-panel); background: transparent; border-radius: var(--radius-sm);">
+            <i data-lucide="upload" style="width: 14px; height: 14px;"></i>
+            Nhập Mẫu (.json)
+          </button>
+          <input type="file" id="template-json-file-input" accept=".json" style="display: none;" onchange="handleTemplateJSONUpload(event)" />
+        </div>
+
+        <div id="templates-library-list" style="display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
+          <!-- Templates are dynamically generated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN: Interactive Canvas Preview -->
+    <div class="canvas-container">
+      <div class="canvas-viewport" id="canvas-viewport">
+        <!-- Live Active SVG Renders here -->
+      </div>
+
+      <div class="canvas-controls">
+        <button class="btn" onclick="downloadCurrentPNG()">
+          <i data-lucide="image" style="width: 14px; height: 14px;"></i>
+          Tải Slide này (HD PNG)
+        </button>
+        <button class="btn" onclick="copySVGCode()">
+          <i data-lucide="code" style="width: 14px; height: 14px;"></i>
+          Sao chép mã SVG
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Editor Panels -->
+    <div class="editor-sidebar">
+
+      <!-- Tab Bar navigation -->
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('tab-content', 'edit-tab', this)">
+          <i data-lucide="edit-3" style="width: 15px; height: 15px;"></i>
+          Nội dung
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-content', 'layout-tab', this)">
+          <i data-lucide="layout" style="width: 15px; height: 15px;"></i>
+          Bố cục
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-content', 'style-tab', this)">
+          <i data-lucide="palette" style="width: 15px; height: 15px;"></i>
+          Giao diện
+        </button>
+      </div>
+
+      <!-- Tab Contents wrapper -->
+      <div class="tab-content-wrapper">
+
+        <!-- EDIT TAB -->
+        <div id="edit-tab" class="tab-content active">
+
+          <!-- Image Upload & Adjustments Section -->
+          <div class="setting-group">
+            <div class="setting-group-title">
+              <i data-lucide="image" style="width: 12px; height: 12px;"></i> Hình ảnh slide
+            </div>
+
+            <div class="file-upload-zone" onclick="document.getElementById('slide-image-file').click()">
+              <i data-lucide="cloud-upload" class="file-upload-icon" style="width: 24px; height: 24px;"></i>
+              <p style="font-weight: 600;">Nhấp để tải ảnh lên (Hỗ trợ tải chuỗi nhiều ảnh cùng lúc)</p>
+              <span>Kéo thả chuỗi ảnh vào đây để tự động tạo loạt slide tương ứng</span>
+              <input type="file" id="slide-image-file" accept="image/*" multiple onchange="handleImageUpload(event)">
+            </div>
+
+            <div id="image-adjustments-panel" style="margin-top: 1rem; display: none;">
+              <div style="margin-bottom: 0.75rem;">
+                <label class="control-label">Bộ lọc Cinematic</label>
+                <div class="filter-pills">
+                  <div class="filter-pill active" data-filter="original" onclick="setImageFilter('original')">Gốc</div>
+                  <div class="filter-pill" data-filter="grayscale" onclick="setImageFilter('grayscale')">B&W</div>
+                  <div class="filter-pill" data-filter="cool" onclick="setImageFilter('cool')">Slate Cool</div>
+                  <div class="filter-pill" data-filter="warm" onclick="setImageFilter('warm')">Warm Amber</div>
+                  <div class="filter-pill" data-filter="contrast" onclick="setImageFilter('contrast')">Tương phản</div>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.75rem;">
+                <label class="control-label">Phóng to / Thu nhỏ ảnh (Zoom)</label>
+                <div class="slider-container">
+                  <input type="range" class="slider-input" id="img-scale" min="0.2" max="3" step="0.05" value="1"
+                    oninput="updateImageTransform()">
+                  <span class="slider-value" id="val-img-scale">1.0x</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.75rem;">
+                <label class="control-label">Tỉ lệ khung ảnh (Aspect Ratio)</label>
+                <div class="ratio-selectors" id="img-ratio-selector">
+                  <button class="ratio-btn" data-ratio="full" onclick="setImageRatio('full')">Tràn viền</button>
+                  <button class="ratio-btn" data-ratio="landscape" onclick="setImageRatio('landscape')">Ngang 16:9</button>
+                  <button class="ratio-btn" data-ratio="square" onclick="setImageRatio('square')">Vuông 1:1</button>
+                  <button class="ratio-btn" data-ratio="portrait" onclick="setImageRatio('portrait')">Đứng 9:16</button>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 12px;">
+                <div style="flex: 1; margin-bottom: 0.75rem;">
+                  <label class="control-label">Dịch ngang X</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="img-x" min="-150" max="150" step="1" value="0"
+                      oninput="updateImageTransform()">
+                    <span class="slider-value" id="val-img-x">0px</span>
+                  </div>
+                </div>
+                <div style="flex: 1; margin-bottom: 0.75rem;">
+                  <label class="control-label">Dịch dọc Y</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="img-y" min="-150" max="150" step="1" value="0"
+                      oninput="updateImageTransform()">
+                    <span class="slider-value" id="val-img-y">0px</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn"
+                style="width: 100%; justify-content: center; font-size: 11px; padding: 0.4rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.3);"
+                onclick="removeCurrentImage()">
+                <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i> Gỡ bỏ ảnh hiện tại
+              </button>
+            </div>
+          </div>
+
+          <!-- Typography Content Inputs -->
+          <div class="setting-group">
+            <div class="setting-group-title">
+              <i data-lucide="type" style="width: 12px; height: 12px;"></i> Nội dung văn bản
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-series">Nhãn tiêu đề đầu (Series Title)</label>
+              <input type="text" class="text-input" id="txt-series" placeholder="Vd: TÔI ĐÃ LÀM ĐƯỢC GÌ Ở TUỔI 20+"
+                oninput="updateActiveSlideText('seriesText', this.value)">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-title">Tiêu đề chính (Headline) - <em>Dùng \n để ngắt
+                  dòng</em></label>
+              <textarea class="text-input" id="txt-title" placeholder="Vd: Báo cáo viên\nchuyên đề"
+                oninput="updateActiveSlideText('title', this.value)"></textarea>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-subtitle">Phụ đề dưới (Subtitle / Narrative)</label>
+              <textarea class="text-input" id="txt-subtitle" placeholder="Vd: Ứng dụng AI trong công tác Công An"
+                oninput="updateActiveSlideText('subtitle', this.value)"></textarea>
+            </div>
+
+            <div id="badge-settings-container" style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-badge">Nội dung Badge vai trò / Tác giả</label>
+              <input type="text" class="text-input" id="txt-badge" placeholder="Vd: Cương vị: Chuyên gia AI"
+                oninput="updateActiveSlideText('badgeText', this.value)">
+            </div>
+
+            <div id="corner-badge-settings-container" style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-topright-badge">Nút góc (Top Right Badge)</label>
+              <input type="text" class="text-input" id="txt-topright-badge" placeholder="Vd: TIN HOT / LIVE"
+                oninput="updateActiveSlideText('badgeTopRight', this.value)">
+            </div>
+
+            <div id="stat-settings-container"
+              style="display: none; border-left: 2px solid var(--color-brand); padding-left: 12px; margin-bottom: 1rem;">
+              <div style="margin-bottom: 0.5rem;">
+                <label class="control-label" for="txt-stat-number">Số liệu lớn</label>
+                <input type="text" class="text-input" id="txt-stat-number" placeholder="Vd: 01"
+                  oninput="updateActiveSlideText('statNumber', this.value)">
+              </div>
+              <div>
+                <label class="control-label" for="txt-stat-label">Nhãn số liệu</label>
+                <input type="text" class="text-input" id="txt-stat-label" placeholder="Vd: Sự kiện phát sóng trực tiếp"
+                  oninput="updateActiveSlideText('statLabel', this.value)">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label class="control-label" for="txt-handle">Mã người dùng (Social Handle)</label>
+              <input type="text" class="text-input" id="txt-handle" placeholder="@nguachinhongmao"
+                oninput="updateActiveSlideText('handleText', this.value)">
+            </div>
+          </div>
+        </div>
+
+        <!-- LAYOUT TAB -->
+        <div id="layout-tab" class="tab-content">
+          <div class="setting-group">
+            <div class="setting-group-title">
+              <i data-lucide="layout" style="width: 12px; height: 12px;"></i> Kiểu bố cục (Layout Presets)
+            </div>
+
+            <div class="grid-presets" id="layout-presets-grid">
+              <div class="preset-card active" data-layout="cover" onclick="setLayoutPreset('cover')">
+                <i data-lucide="book-open"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Bìa Cover</h4>
+                <p>Ảnh lớn, Title to</p>
+              </div>
+              <div class="preset-card" data-layout="context" onclick="setLayoutPreset('context')">
+                <i data-lucide="tv"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Bối cảnh TV</h4>
+                <p>Khung ảnh vừa, Thuyết minh</p>
+              </div>
+              <div class="preset-card" data-layout="stat" onclick="setLayoutPreset('stat')">
+                <i data-lucide="binary"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Số liệu lớn</h4>
+                <p>Thành tựu, Thống kê</p>
+              </div>
+              <div class="preset-card" data-layout="quote" onclick="setLayoutPreset('quote')">
+                <i data-lucide="quote"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Trích dẫn</h4>
+                <p>Câu nói tâm đắc, Góc nhìn</p>
+              </div>
+              <div class="preset-card" data-layout="standard" onclick="setLayoutPreset('standard')">
+                <i data-lucide="newspaper"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Nguồn báo chí</h4>
+                <p>Khung ảnh lớn, Punchline</p>
+              </div>
+              <div class="preset-card" data-layout="bleed" onclick="setLayoutPreset('bleed')">
+                <i data-lucide="maximize"
+                  style="width: 16px; height: 16px; margin-bottom: 6px; color: var(--color-brand)"></i>
+                <h4>Full Bleed</h4>
+                <p>Full ảnh poster nghệ thuật</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="helper-card">
+            <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+            <p>Mỗi slide có thể sử dụng một bố cục độc lập nhằm tạo nhịp điệu (Visual Rhythm) hấp dẫn khi lướt TikTok:
+              Cover (Móc câu) ➔ Bối cảnh ➔ Trích dẫn cảm xúc ➔ Punchline đắt giá.</p>
+          </div>
+        </div>
+
+        <!-- STYLE / THEME TAB -->
+        <div id="style-tab" class="tab-content">
+          <div class="setting-group">
+            <div class="setting-group-title">
+              <i data-lucide="palette" style="width: 12px; height: 12px;"></i> Giao diện tổng thể (Themes)
+            </div>
+
+            <div class="grid-presets" id="theme-presets-grid" style="grid-template-columns: 1fr;">
+              <div class="preset-card active" style="text-align: left; padding: 10px;" data-theme="dark_cinematic"
+                onclick="setThemePreset('dark_cinematic')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="display: flex; align-items: center; gap: 6px;">
+                      <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #ef9f27;"></span>
+                      Dark Cinematic
+                    </h4>
+                    <p style="margin-top: 2px;">Nền tối sâu thẳm, điểm nhấn hổ phách, chữ Georgia sang trọng</p>
+                  </div>
+                  <span
+                    style="font-size: 11px; background-color: #27272a; padding: 2px 6px; border-radius: 4px; color: var(--text-secondary);">Mặc
+                    định</span>
+                </div>
+              </div>
+
+              <div class="preset-card" style="text-align: left; padding: 10px; margin-top: 8px;"
+                data-theme="silver_documentary" onclick="setThemePreset('silver_documentary')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="display: flex; align-items: center; gap: 6px;">
+                      <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #a8b4bf;"></span>
+                      Silver Documentary
+                    </h4>
+                    <p style="margin-top: 2px;">Màu xám lạnh kim loại, hiệu ứng phim tài liệu, tối giản điện ảnh</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preset-card" style="text-align: left; padding: 10px; margin-top: 8px;" data-theme="cyber_neon"
+                onclick="setThemePreset('cyber_neon')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="display: flex; align-items: center; gap: 6px;">
+                      <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #ff0055;"></span>
+                      Cyberpunk Pink
+                    </h4>
+                    <p style="margin-top: 2px;">Tối tăm công nghệ, sắc hồng neon, cá tính nổi loạn</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preset-card" style="text-align: left; padding: 10px; margin-top: 8px;"
+                data-theme="forest_emerald" onclick="setThemePreset('forest_emerald')">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <h4 style="display: flex; align-items: center; gap: 6px;">
+                      <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #10b981;"></span>
+                      Deep Emerald
+                    </h4>
+                    <p style="margin-top: 2px;">Xanh lục bảo thẳm, dịu mát, tri thức học thuật sâu sắc</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Customizer -->
+          <div class="setting-group" style="border-top: 1px solid var(--border-panel); padding-top: 1.5rem;">
+            <div class="setting-group-title">
+              <i data-lucide="sliders" style="width: 12px; height: 12px;"></i> Tùy chỉnh màu sắc riêng biệt
+            </div>
+
+            <div class="color-pickers-row">
+              <div>
+                <label class="control-label">Màu chủ đạo (Accent)</label>
+                <div class="color-picker-item">
+                  <input type="color" class="color-picker-input" id="custom-color-accent" value="#ef9f27"
+                    onchange="applyCustomColors()">
+                  <span class="color-picker-label" id="val-color-accent">#ef9f27</span>
+                </div>
+              </div>
+
+              <div>
+                <label class="control-label">Nền Slide (Background)</label>
+                <div class="color-picker-item">
+                  <input type="color" class="color-picker-input" id="custom-color-bg" value="#0d0d0c"
+                    onchange="applyCustomColors()">
+                  <span class="color-picker-label" id="val-color-bg">#0d0d0c</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Font Selection -->
+          <div class="setting-group">
+            <label class="control-label" for="select-title-font">Phông chữ Tiêu đề (Serif)</label>
+            <select class="select-input" id="select-title-font" onchange="applyCustomFont(this.value)">
+              <option value="'Playfair Display', Georgia, serif">Playfair Display (Gợi ý nghệ thuật)</option>
+              <option value="Georgia, serif">Georgia (Mặc định Cinematic)</option>
+              <option value="var(--font-sans)">Inter (Không chân tối giản)</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Panel footer in sidebar -->
+      <div class="sidebar-footer">
+        <button class="btn" style="width: 100%; justify-content: center; gap: 8px;" onclick="duplicateCurrentSlide()">
+          <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Nhân bản slide này
+        </button>
+        <button class="btn"
+          style="width: 100%; justify-content: center; gap: 8px; color: #ef4444; border-color: rgba(239, 68, 68, 0.2);"
+          onclick="deleteCurrentSlide()">
+          <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Xóa slide này
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       BOTTOM TIMELINE GUIDE
+       ========================================== -->
+  <div class="flow-guide">
+    <div
+      style="font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-right: 15px; display: flex; align-items: center; gap: 6px;">
+      <i data-lucide="git-commit" style="width: 14px; height: 14px; color: var(--color-brand);"></i> Nhịp câu chuyện
+      (Flow):
+    </div>
+
+    <div id="story-flow-guide-elements" style="display: flex; gap: 10px; align-items: center;">
+      <!-- Dynamic flow tags generated by JS -->
+    </div>
+  </div>
+
+  <!-- TOAST ALERTS -->
+  <div id="toast">
+    <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i>
+    <span id="toast-message">Đã lưu thay đổi</span>
+  </div>
+
+  <!-- Offscreen helper canvas for PNG exporting -->
+  <canvas id="export-canvas" style="display: none;"></canvas>
+
+  <!-- ==========================================
+       JAVASCRIPT APPLICATION ENGINE
+       ========================================== -->
+  <script>
+    // ==========================================
+    // DATA MODEL & THEME CONFIGS
+    // ==========================================
+
+    // Theme details mappings
+    const THEMES = {
+      dark_cinematic: {
+        id: 'dark_cinematic',
+        bg: '#0d0d0c',
+        accent: '#ef9f27',
+        textTitle: '#ffffff',
+        textBody: '#b4b2a9',
+        textMuted: '#444441',
+        titleFont: "Georgia, serif"
+      },
+      silver_documentary: {
+        id: 'silver_documentary',
+        bg: '#12161a',
+        accent: '#a8b4bf',
+        textTitle: '#ffffff',
+        textBody: '#c8cdd2',
+        textMuted: '#4a5e6e',
+        titleFont: "Georgia, serif"
+      },
+      cyber_neon: {
+        id: 'cyber_neon',
+        bg: '#0a050d',
+        accent: '#ff0055',
+        textTitle: '#ffffff',
+        textBody: '#d9c8de',
+        textMuted: '#523a5c',
+        titleFont: "'Playfair Display', Georgia, serif"
+      },
+      forest_emerald: {
+        id: 'forest_emerald',
+        bg: '#050a08',
+        accent: '#10b981',
+        textTitle: '#ffffff',
+        textBody: '#c2d6ce',
+        textMuted: '#385c4e',
+        titleFont: "Georgia, serif"
+      }
+    };
+
+    // Preloaded Demo Stories
+    const PRESETS = {
+      quockhanh: [
+        {
+          id: 'slide-1',
+          layout: 'cover',
+          seriesText: 'TÔI ĐÃ LÀM ĐƯỢC GÌ Ở TUỔI 20+',
+          title: 'Báo cáo viên\nchuyên đề',
+          subtitle: 'Ứng dụng AI trong công tác Công An\ntại Bộ Công An',
+          badgeText: 'Cương vị: "chuyên gia" AI',
+          badgeTopRight: '',
+          image: '', // default fallback placeholder
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: '',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@nguachinhongmao'
+        },
+        {
+          id: 'slide-2',
+          layout: 'context',
+          seriesText: 'No. 01',
+          title: 'Sự kiện được phát sóng\ntrực tiếp trên truyền hình',
+          subtitle: 'Trong hội trường lớn —\ncùng hàng trăm khách mời.',
+          badgeText: '',
+          badgeTopRight: '',
+          image: '',
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: '',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@nguachinhongmao'
+        },
+        {
+          id: 'slide-3',
+          layout: 'quote',
+          seriesText: 'GÓC NHÌN CÁ NHÂN',
+          title: '"Tôi là người trẻ nhất\ntrong phòng hôm đó."',
+          subtitle: '— góc nhìn cá nhân',
+          badgeText: '',
+          badgeTopRight: '',
+          image: '',
+          imageScale: 1.2,
+          imageX: 0,
+          imageY: -10,
+          imageFilter: 'original',
+          quoteAuthor: 'Quốc Khánh · 22 tuổi',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@nguachinhongmao'
+        },
+        {
+          id: 'slide-4',
+          layout: 'standard',
+          seriesText: 'BÀI HỌC CUỐI',
+          title: 'Được đăng tin trên\ncác trang báo chí lớn',
+          subtitle: 'Bài học: Đôi lúc bạn không cần\nxin ai cả — chỉ cần đủ giỏi để\nđược mời vào phòng.',
+          badgeText: '',
+          badgeTopRight: '',
+          image: '',
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: '',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@nguachinhongmao'
+        }
+      ],
+      marketing: [
+        {
+          id: 'slide-1',
+          layout: 'cover',
+          seriesText: 'BÀI HỌC CUỘC ĐỜI TUỔI 22',
+          title: 'Đừng vội kiếm tiền\nhãy kiếm giá trị',
+          subtitle: 'Một góc nhìn chân thật từ trải nghiệm thực tế\ncủa một người trẻ bắt đầu từ số 0.',
+          badgeText: 'Chủ đề: Phát triển tư duy',
+          badgeTopRight: '',
+          image: '',
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: '',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@khanhgrowth'
+        },
+        {
+          id: 'slide-2',
+          layout: 'stat',
+          seriesText: 'BÀI HỌC 01',
+          title: 'Số liệu đầu tiên',
+          subtitle: 'Đọc 50 cuốn sách và thực thi 1 dự án thực tế\ngiúp thay đổi hoàn toàn tư duy của tôi.',
+          badgeText: '',
+          badgeTopRight: 'STATS',
+          image: '',
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'grayscale',
+          quoteAuthor: '',
+          statNumber: '50+',
+          statLabel: 'Số sách & dự án thực tế\ntôi đã cày cuốc',
+          handleText: '@khanhgrowth'
+        },
+        {
+          id: 'slide-3',
+          layout: 'quote',
+          seriesText: 'BÀI HỌC 02',
+          title: '"Nếu bạn đủ giỏi, người khác\nsẽ tự động tìm đến bạn.\nKhông cần quảng cáo."',
+          subtitle: 'Thực tế phũ phàng nhưng đúng đắn.',
+          badgeText: '',
+          badgeTopRight: '',
+          image: '',
+          imageScale: 1.1,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: 'Quốc Khánh · Triết lý cá nhân',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@khanhgrowth'
+        },
+        {
+          id: 'slide-4',
+          layout: 'standard',
+          seriesText: 'BÀI HỌC RÚT RA',
+          title: 'Tập trung xây dựng\n"Năng lực cốt lõi"',
+          subtitle: 'Thay vì chạy theo những cơ hội ngắn hạn,\nhãy biến mình thành thỏi nam châm\nthu hút mọi người.',
+          badgeText: '',
+          badgeTopRight: 'KẾT LUẬN',
+          image: '',
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: '',
+          statNumber: '',
+          statLabel: '',
+          handleText: '@khanhgrowth'
+        }
+      ]
+    };
+
+    // State of the current application
+    let appState = {
+      slides: JSON.parse(JSON.stringify(PRESETS.quockhanh)), // Deep copy of the default demo
+      activeSlideId: 'slide-1',
+      activeTheme: 'dark_cinematic',
+      customAccentColor: '#ef9f27',
+      customBgColor: '#0d0d0c',
+      customTitleFont: 'Georgia, serif',
+      activeSlidePNGBlobURL: null
+    };
+
+    // Raw SVG string for default photo placeholder (completely escapes double-quotes issues)
+    const PLACEHOLDER_SVG = `<svg width="330" height="440" xmlns="http://www.w3.org/2000/svg">
+      <rect width="330" height="440" fill="#1c1c21" />
+      <g transform="translate(165, 170)" stroke="#3f3f46" stroke-width="1.5" fill="none">
+        <path d="M-20,-10 h10 l5,-8 h10 l5,8 h10 a4,4 0 0,1 4,4 v24 a4,4 0 0,1 -4,4 h-40 a4,4 0 0,1 -4,-4 v-24 a4,4 0 0,1 4,-4 z" />
+        <circle cx="0" cy="5" r="8" />
+      </g>
+      <text x="165" y="225" font-family="sans-serif" font-size="10" fill="#52525b" text-anchor="middle" font-weight="600" letter-spacing="1">NHẤP ĐỂ CHỌN HOẶC KÉO ẢNH VÀO ĐÂY</text>
+    </svg>`;
+
+    // Convert to a base64 Data URL dynamically to avoid quotes collision in SVG markup interpolation
+    const PLACEHOLDER_IMG_BASE64 = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(PLACEHOLDER_SVG)));
+
+    // ==========================================
+    // LIFE CYCLE EVENTS & INITIALIZATION
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize icons
+      lucide.createIcons();
+
+      // Load first preset by default
+      loadState(appState);
+
+      // Register global drag & drop triggers for canvas-viewport
+      const viewport = document.getElementById('canvas-viewport');
+      if (viewport) {
+        viewport.addEventListener('dragover', (e) => e.preventDefault());
+        viewport.addEventListener('drop', handleFileDrop);
+      }
+
+      // Add drag and drop listeners for the sidebar file upload zone
+      const uploadZone = document.querySelector('.file-upload-zone');
+      if (uploadZone) {
+        uploadZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          uploadZone.style.borderColor = 'var(--color-brand)';
+          uploadZone.style.backgroundColor = 'var(--color-brand-glow)';
+        });
+        uploadZone.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          uploadZone.style.borderColor = '';
+          uploadZone.style.backgroundColor = '';
+        });
+        uploadZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          uploadZone.style.borderColor = '';
+          uploadZone.style.backgroundColor = '';
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            processMultipleImageFiles(e.dataTransfer.files);
+          }
+        });
+      }
+    });
+
+    // Load active state into the sidebar form inputs
+    function loadState(state) {
+      appState = state;
+
+      // Sync Theme selector UI
+      document.querySelectorAll('#theme-presets-grid .preset-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.theme === appState.activeTheme);
+      });
+
+      // Apply active theme colors to input fields
+      const themeColors = THEMES[appState.activeTheme];
+      appState.customAccentColor = themeColors.accent;
+      appState.customBgColor = themeColors.bg;
+      appState.customTitleFont = themeColors.titleFont;
+
+      document.getElementById('custom-color-accent').value = appState.customAccentColor;
+      document.getElementById('custom-color-bg').value = appState.customBgColor;
+      document.getElementById('val-color-accent').innerText = appState.customAccentColor;
+      document.getElementById('val-color-bg').innerText = appState.customBgColor;
+      document.getElementById('select-title-font').value = appState.customTitleFont;
+
+      // Select active slide
+      if (appState.slides.length > 0) {
+        // Ensure active ID exists
+        const exists = appState.slides.some(s => s.id === appState.activeSlideId);
+        if (!exists) {
+          appState.activeSlideId = appState.slides[0].id;
+        }
+        selectSlide(appState.activeSlideId);
+      } else {
+        addNewSlide();
+      }
+    }
+
+    // Load sample presets
+    function loadSamplePreset(presetKey) {
+      if (PRESETS[presetKey]) {
+        const confirmLoad = confirm("Bạn có chắc chắn muốn nạp demo này? Các chỉnh sửa hiện tại sẽ bị ghi đè.");
+        if (confirmLoad) {
+          const newState = {
+            slides: JSON.parse(JSON.stringify(PRESETS[presetKey])),
+            activeSlideId: 'slide-1',
+            activeTheme: presetKey === 'quockhanh' ? 'dark_cinematic' : 'silver_documentary',
+            customAccentColor: THEMES[presetKey === 'quockhanh' ? 'dark_cinematic' : 'silver_documentary'].accent,
+            customBgColor: THEMES[presetKey === 'quockhanh' ? 'dark_cinematic' : 'silver_documentary'].bg,
+            customTitleFont: THEMES[presetKey === 'quockhanh' ? 'dark_cinematic' : 'silver_documentary'].titleFont
+          };
+          loadState(newState);
+          showToast(`Nạp thành công demo "${presetKey === 'quockhanh' ? 'Bộ Công An' : 'Bài học 22 tuổi'}"`);
+        }
+      }
+    }
+
+    // Select active slide
+    function selectSlide(slideId) {
+      appState.activeSlideId = slideId;
+
+      // Update sidebar forms
+      const slide = appState.slides.find(s => s.id === slideId);
+      if (!slide) return;
+
+      // Populate text fields
+      document.getElementById('txt-series').value = slide.seriesText || '';
+      document.getElementById('txt-title').value = slide.title || '';
+      document.getElementById('txt-subtitle').value = slide.subtitle || '';
+      document.getElementById('txt-badge').value = slide.badgeText || '';
+      document.getElementById('txt-topright-badge').value = slide.badgeTopRight || '';
+      document.getElementById('txt-stat-number').value = slide.statNumber || '';
+      document.getElementById('txt-stat-label').value = slide.statLabel || '';
+      document.getElementById('txt-handle').value = slide.handleText || '@nguachinhongmao';
+
+      // Show/Hide inputs depending on layout preset
+      toggleSpecialInputs(slide.layout);
+
+      // Populate image scaling and translations
+      document.getElementById('img-scale').value = slide.imageScale || 1.0;
+      document.getElementById('img-x').value = slide.imageX || 0;
+      document.getElementById('img-y').value = slide.imageY || 0;
+
+      document.getElementById('val-img-scale').innerText = (slide.imageScale || 1.0).toFixed(2) + 'x';
+      document.getElementById('val-img-x').innerText = (slide.imageX || 0) + 'px';
+      document.getElementById('val-img-y').innerText = (slide.imageY || 0) + 'px';
+
+      // Sync Aspect Ratio selector buttons
+      let activeRatio = slide.imageRatio || 'default';
+      if (activeRatio === 'default') {
+        if (slide.layout === 'cover' || slide.layout === 'bleed') {
+          activeRatio = 'full';
+        } else if (slide.layout === 'context' || slide.layout === 'stat' || slide.layout === 'standard') {
+          activeRatio = 'landscape';
+        } else if (slide.layout === 'quote') {
+          activeRatio = 'portrait';
+        }
+      }
+
+      document.querySelectorAll('#img-ratio-selector .ratio-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.ratio === activeRatio);
+      });
+
+      // Show/Hide image adjustments
+      const imgPanel = document.getElementById('image-adjustments-panel');
+      if (slide.image) {
+        imgPanel.style.display = 'block';
+        // Active filter pill
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+          pill.classList.toggle('active', pill.dataset.filter === (slide.imageFilter || 'original'));
+        });
+      } else {
+        imgPanel.style.display = 'none';
+      }
+
+      // Set active layout card in sidebar
+      document.querySelectorAll('#layout-presets-grid .preset-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.layout === slide.layout);
+      });
+
+      // Render the active preview and updates thumbnails
+      renderActiveSlide();
+      renderThumbnails();
+      renderTimeline();
+    }
+
+    // Update conditional fields inside properties panel
+    function toggleSpecialInputs(layout) {
+      const badgeCont = document.getElementById('badge-settings-container');
+      const statCont = document.getElementById('stat-settings-container');
+      const cornerBadgeCont = document.getElementById('corner-badge-settings-container');
+
+      badgeCont.style.display = (layout === 'cover') ? 'block' : 'none';
+      statCont.style.display = (layout === 'stat') ? 'block' : 'none';
+      cornerBadgeCont.style.display = (layout === 'context' || layout === 'standard') ? 'block' : 'none';
+    }
+
+    // ==========================================
+    // SLIDE MANAGEMENT CRUD
+    // ==========================================
+    function addNewSlide() {
+      const newId = 'slide-' + Date.now();
+      const newSlide = {
+        id: newId,
+        layout: 'standard',
+        seriesText: 'NỘI DUNG MỚI',
+        title: 'Bấm nút để thay đổi\ntiêu đề slide',
+        subtitle: 'Bổ sung phần viết diễn giải dài của bạn\nvào phần văn bản thuyết minh này.',
+        badgeText: '',
+        badgeTopRight: '',
+        image: '',
+        imageScale: 1.0,
+        imageX: 0,
+        imageY: 0,
+        imageFilter: 'original',
+        quoteAuthor: '',
+        statNumber: '02',
+        statLabel: 'Nhãn thông số phụ',
+        handleText: appState.slides[appState.slides.length - 1]?.handleText || '@nguachinhongmao'
+      };
+
+      appState.slides.push(newSlide);
+      selectSlide(newId);
+      showToast("Đã thêm slide mới");
+    }
+
+    function duplicateCurrentSlide() {
+      const current = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!current) return;
+
+      const dupId = 'slide-' + Date.now();
+      const duplicate = JSON.parse(JSON.stringify(current));
+      duplicate.id = dupId;
+
+      // Find index of current slide to insert duplicate right after it
+      const idx = appState.slides.findIndex(s => s.id === appState.activeSlideId);
+      appState.slides.splice(idx + 1, 0, duplicate);
+
+      selectSlide(dupId);
+      showToast("Đã nhân bản slide thành công");
+    }
+
+    function deleteCurrentSlide() {
+      if (appState.slides.length <= 1) {
+        alert("Bạn phải có ít nhất 1 slide trong carousel.");
+        return;
+      }
+
+      const confirmDelete = confirm("Bạn có chắc chắn muốn xóa slide này?");
+      if (!confirmDelete) return;
+
+      const idx = appState.slides.findIndex(s => s.id === appState.activeSlideId);
+      appState.slides.splice(idx, 1);
+
+      // Select nearest remaining slide
+      const newActiveIdx = Math.max(0, idx - 1);
+      const newActiveId = appState.slides[newActiveIdx].id;
+
+      selectSlide(newActiveId);
+      showToast("Đã xóa slide");
+    }
+
+    // Drag slides to reorder
+    function moveSlideUp(idx, event) {
+      event.stopPropagation();
+      if (idx === 0) return;
+      const temp = appState.slides[idx];
+      appState.slides[idx] = appState.slides[idx - 1];
+      appState.slides[idx - 1] = temp;
+      renderThumbnails();
+      renderTimeline();
+    }
+
+    function moveSlideDown(idx, event) {
+      event.stopPropagation();
+      if (idx === appState.slides.length - 1) return;
+      const temp = appState.slides[idx];
+      appState.slides[idx] = appState.slides[idx + 1];
+      appState.slides[idx + 1] = temp;
+      renderThumbnails();
+      renderTimeline();
+    }
+
+    // ==========================================
+    // STYLING AND THEMEING EVENTS
+    // ==========================================
+    function switchTab(wrapperClass, tabId, tabBtn) {
+      document.querySelectorAll('.' + wrapperClass).forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+
+      // Sync active tab buttons
+      tabBtn.parentElement.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      tabBtn.classList.add('active');
+    }
+
+    function setThemePreset(themeId) {
+      appState.activeTheme = themeId;
+
+      // Sync presets cards
+      document.querySelectorAll('#theme-presets-grid .preset-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.theme === themeId);
+      });
+
+      const presetColors = THEMES[themeId];
+      appState.customAccentColor = presetColors.accent;
+      appState.customBgColor = presetColors.bg;
+      appState.customTitleFont = presetColors.titleFont;
+
+      // Sync values in inputs
+      document.getElementById('custom-color-accent').value = appState.customAccentColor;
+      document.getElementById('custom-color-bg').value = appState.customBgColor;
+      document.getElementById('val-color-accent').innerText = appState.customAccentColor;
+      document.getElementById('val-color-bg').innerText = appState.customBgColor;
+      document.getElementById('select-title-font').value = appState.customTitleFont;
+
+      renderActiveSlide();
+      renderThumbnails();
+    }
+
+    function applyCustomColors() {
+      appState.customAccentColor = document.getElementById('custom-color-accent').value;
+      appState.customBgColor = document.getElementById('custom-color-bg').value;
+
+      document.getElementById('val-color-accent').innerText = appState.customAccentColor;
+      document.getElementById('val-color-bg').innerText = appState.customBgColor;
+
+      renderActiveSlide();
+      renderThumbnails();
+    }
+
+    function applyCustomFont(fontFamily) {
+      appState.customTitleFont = fontFamily;
+      renderActiveSlide();
+      renderThumbnails();
+    }
+
+    // ==========================================
+    // FORM INPUT SYNCRONIZATION
+    // ==========================================
+    function updateActiveSlideText(key, val) {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide[key] = val;
+        renderActiveSlide();
+
+        // Optimize re-render of current thumbnail only
+        const thumbSvg = document.getElementById(`thumb-svg-${activeSlide.id}`);
+        if (thumbSvg) {
+          thumbSvg.innerHTML = generateSVGContent(activeSlide, 80, 107, false);
+        }
+      }
+    }
+
+    function setLayoutPreset(layout) {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.layout = layout;
+
+        // Add layouts default values
+        if (layout === 'quote' && !activeSlide.quoteAuthor) {
+          activeSlide.quoteAuthor = '— trích dẫn ý kiến';
+        }
+
+        // Clear custom container dimensions so the new layout defaults apply instantly
+        delete activeSlide.imageContainerWidth;
+        delete activeSlide.imageContainerHeight;
+        delete activeSlide.imageRatio;
+
+        // Re-run selectSlide to synchronize all inputs and re-render everything cleanly
+        selectSlide(appState.activeSlideId);
+      }
+    }
+
+    // Image adjust variables
+    function updateImageTransform() {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.imageScale = parseFloat(document.getElementById('img-scale').value);
+        activeSlide.imageX = parseFloat(document.getElementById('img-x').value);
+        activeSlide.imageY = parseFloat(document.getElementById('img-y').value);
+
+        document.getElementById('val-img-scale').innerText = activeSlide.imageScale.toFixed(2) + 'x';
+        document.getElementById('val-img-x').innerText = activeSlide.imageX + 'px';
+        document.getElementById('val-img-y').innerText = activeSlide.imageY + 'px';
+
+        renderActiveSlide();
+
+        const thumbSvg = document.getElementById(`thumb-svg-${activeSlide.id}`);
+        if (thumbSvg) {
+          thumbSvg.innerHTML = generateSVGContent(activeSlide, 80, 107, false);
+        }
+      }
+    }
+
+    function setImageRatio(ratio) {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.imageRatio = ratio;
+
+        // Clean up custom overrides so the engine calculates the golden-spot coordinates automatically
+        delete activeSlide.imageContainerWidth;
+        delete activeSlide.imageContainerHeight;
+
+        // Sync buttons UI
+        document.querySelectorAll('#img-ratio-selector .ratio-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.ratio === ratio);
+        });
+
+        renderActiveSlide();
+
+        const thumbSvg = document.getElementById(`thumb-svg-${activeSlide.id}`);
+        if (thumbSvg) {
+          thumbSvg.innerHTML = generateSVGContent(activeSlide, 80, 107, false);
+        }
+      }
+    }
+
+    function setImageFilter(filterId) {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.imageFilter = filterId;
+
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+          pill.classList.toggle('active', pill.dataset.filter === filterId);
+        });
+
+        renderActiveSlide();
+        renderThumbnails();
+      }
+    }
+
+    function removeCurrentImage() {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.image = '';
+        document.getElementById('image-adjustments-panel').style.display = 'none';
+        renderActiveSlide();
+        renderThumbnails();
+      }
+    }
+
+    // File Drop & Select handlers (Support single and batch/sequence photo uploads)
+    function handleImageUpload(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        processMultipleImageFiles(e.target.files);
+      }
+    }
+
+    function handleFileDrop(e) {
+      e.preventDefault();
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        processMultipleImageFiles(e.dataTransfer.files);
+      }
+    }
+
+    async function processMultipleImageFiles(files) {
+      // Check if there are any HEIC/HEIF files (often uploaded by Mac/iPhone users)
+      const unsupportedHeic = Array.from(files).some(f => {
+        const name = f.name.toLowerCase();
+        return name.endsWith('.heic') || name.endsWith('.heif');
+      });
+      if (unsupportedHeic) {
+        alert("⚠️ Định dạng ảnh HEIC/HEIF (ảnh gốc từ iPhone) không được trình duyệt hỗ trợ hiển thị trực tiếp.\n\nBạn vui lòng chuyển đổi ảnh sang định dạng JPG, JPEG hoặc PNG trước khi tải lên ứng dụng nhé!");
+      }
+
+      // Support mime type check or file name extension matching (fully robust for JPG, JPEG, PNG, WEBP, GIF, SVG)
+      const imageFiles = Array.from(files).filter(f => {
+        const mimeType = f.type || '';
+        const ext = f.name.toLowerCase().split('.').pop();
+        return mimeType.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(ext);
+      });
+
+      if (imageFiles.length === 0) return;
+
+      showToast(`Đang xử lý chuỗi ${imageFiles.length} ảnh...`);
+
+      const readFileAsDataURL = (file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (event) => resolve(event.target.result);
+          reader.readAsDataURL(file);
+        });
+      };
+
+      // 1. Process the very first image for the CURRENT active slide
+      const firstImgData = await readFileAsDataURL(imageFiles[0]);
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (activeSlide) {
+        activeSlide.image = firstImgData;
+        activeSlide.imageScale = 1.0;
+        activeSlide.imageX = 0;
+        activeSlide.imageY = 0;
+
+        document.getElementById('img-scale').value = 1.0;
+        document.getElementById('img-x').value = 0;
+        document.getElementById('img-y').value = 0;
+        document.getElementById('image-adjustments-panel').style.display = 'block';
+      }
+
+      // 2. For any subsequent images, automatically create a new slide with a sequential layout
+      for (let i = 1; i < imageFiles.length; i++) {
+        const imgData = await readFileAsDataURL(imageFiles[i]);
+        const newId = 'slide-' + Date.now() + '-' + i;
+
+        // Cycle layout styles to keep a beautiful storytelling rhythm on TikTok
+        const layouts = ['context', 'quote', 'standard', 'bleed', 'stat'];
+        const chosenLayout = layouts[(i - 1) % layouts.length];
+
+        const newSlide = {
+          id: newId,
+          layout: chosenLayout,
+          seriesText: activeSlide ? activeSlide.seriesText : 'BÀI HỌC CUỘC SỐNG',
+          title: chosenLayout === 'quote' ? '"Thêm câu nói tâm đắc\ncủa bạn tại đây."' : `Slide ảnh số ${i + 1}`,
+          subtitle: chosenLayout === 'quote' ? '— góc nhìn cá nhân' : 'Dòng mô tả, cảm xúc hay bài học rút ra từ bức ảnh này.',
+          badgeText: '',
+          badgeTopRight: chosenLayout === 'context' ? 'BỐI CẢNH' : '',
+          image: imgData,
+          imageScale: 1.0,
+          imageX: 0,
+          imageY: 0,
+          imageFilter: 'original',
+          quoteAuthor: chosenLayout === 'quote' ? 'Quốc Khánh' : '',
+          statNumber: '0' + (i + 1),
+          statLabel: 'Số liệu thống kê phụ',
+          handleText: activeSlide ? activeSlide.handleText : '@nguachinhongmao'
+        };
+
+        appState.slides.push(newSlide);
+      }
+
+      // Refresh UI & Navigator
+      selectSlide(appState.activeSlideId);
+      showToast(`Đã tải lên chuỗi ${imageFiles.length} ảnh và tự động tạo slide tương ứng!`);
+    }
+
+    // ==========================================
+    // RENDER SYSTEM (SVG GENERATOR)
+    // ==========================================
+
+    function renderActiveSlide() {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!activeSlide) return;
+
+      const container = document.getElementById('canvas-viewport');
+      container.innerHTML = generateSVGContent(activeSlide, 375, 500, false);
+
+      // Reset and trigger background pre-render to support instantaneous synchronous click download
+      if (appState.activeSlidePNGBlobURL) {
+        URL.revokeObjectURL(appState.activeSlidePNGBlobURL);
+      }
+      appState.activeSlidePNGBlobURL = null;
+      preRenderActiveSlideToPNG();
+    }
+
+    function renderThumbnails() {
+      const list = document.getElementById('slide-thumbnails-list');
+      list.innerHTML = '';
+
+      appState.slides.forEach((slide, idx) => {
+        const activeClass = slide.id === appState.activeSlideId ? 'active' : '';
+        const card = document.createElement('div');
+        card.className = `slide-thumb-card ${activeClass}`;
+        card.onclick = () => selectSlide(slide.id);
+
+        card.innerHTML = `
+          <div class="thumb-preview" id="thumb-svg-${slide.id}">
+            ${generateSVGContent(slide, 80, 107, false)}
+          </div>
+          <span class="thumb-title">${slide.layout.toUpperCase()} ${idx + 1}</span>
+          <button class="thumb-actions" onclick="deleteSlideById('${slide.id}', event)">
+            <i data-lucide="x" style="width: 10px; height: 10px;"></i>
+          </button>
+          
+          <!-- Reordering arrows inside thumbnails -->
+          <div style="display:flex; gap:6px; margin-top:2px;">
+            <button onclick="moveSlideUp(${idx}, event)" style="background:none; border:none; color:var(--text-tertiary); cursor:pointer;"><i data-lucide="chevron-up" style="width:12px; height:12px;"></i></button>
+            <button onclick="moveSlideDown(${idx}, event)" style="background:none; border:none; color:var(--text-tertiary); cursor:pointer;"><i data-lucide="chevron-down" style="width:12px; height:12px;"></i></button>
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function deleteSlideById(slideId, event) {
+      event.stopPropagation();
+      if (appState.slides.length <= 1) {
+        alert("Phải giữ lại ít nhất 1 slide.");
+        return;
+      }
+      const idx = appState.slides.findIndex(s => s.id === slideId);
+      appState.slides.splice(idx, 1);
+      if (appState.activeSlideId === slideId) {
+        appState.activeSlideId = appState.slides[0].id;
+      }
+      selectSlide(appState.activeSlideId);
+    }
+
+    function renderTimeline() {
+      const guideCont = document.getElementById('story-flow-guide-elements');
+      guideCont.innerHTML = '';
+
+      appState.slides.forEach((slide, idx) => {
+        const step = document.createElement('div');
+        step.className = `flow-step-dot ${slide.id === appState.activeSlideId ? 'active' : 'completed'}`;
+
+        let label = "Slide";
+        if (slide.layout === 'cover') label = "🎣 Cover (Hook)";
+        else if (slide.layout === 'context') label = "📺 Context (Hội trường)";
+        else if (slide.layout === 'stat') label = "📊 Stat (Uy tín)";
+        else if (slide.layout === 'quote') label = "💬 Quote (Đồng cảm)";
+        else if (slide.layout === 'standard') label = "📰 Article (Báo chí)";
+        else if (slide.layout === 'bleed') label = "🖼️ Bleed (Nghệ thuật)";
+
+        step.innerHTML = `<span>${idx + 1}. ${label}</span>`;
+        guideCont.appendChild(step);
+
+        if (idx < appState.slides.length - 1) {
+          const arrow = document.createElement('span');
+          arrow.className = 'flow-arrow';
+          arrow.innerHTML = '➔';
+          guideCont.appendChild(arrow);
+        }
+      });
+    }
+
+    // SVG ESCAPE UTIL
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Helper to render multi-line text blocks in SVG
+    function drawMultiLineText(linesStr, x, startY, lineHeight, attrs) {
+      const lines = linesStr.split('\n');
+      return lines.map((line, idx) => {
+        const y = startY + idx * lineHeight;
+        return `<text x="${x}" y="${y}" ${attrs}>${escapeHTML(line)}</text>`;
+      }).join('');
+    }
+
+    function getContrastColors(bgColor) {
+      const color = bgColor.replace('#', '');
+      let r = 0, g = 0, b = 0;
+      if (color.length === 3) {
+        r = parseInt(color.substring(0, 1) + color.substring(0, 1), 16);
+        g = parseInt(color.substring(1, 2) + color.substring(1, 2), 16);
+        b = parseInt(color.substring(2, 3) + color.substring(2, 3), 16);
+      } else if (color.length === 6) {
+        r = parseInt(color.substring(0, 2), 16);
+        g = parseInt(color.substring(2, 4), 16);
+        b = parseInt(color.substring(4, 6), 16);
+      }
+      
+      const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      
+      if (yiq >= 135) {
+        // Light background -> Dark text themes
+        return {
+          title: '#0a0a0c',
+          body: '#3f3f46',
+          muted: '#808080',
+          theme: 'light_clean'
+        };
+      } else {
+        // Dark background -> Light text themes
+        return {
+          title: '#ffffff',
+          body: '#b4b2a9',
+          muted: '#52525b',
+          theme: 'dark_cinematic'
+        };
+      }
+    }
+
+    // CORE ENGINE: GENERATE SVG XML STRING
+    function generateSVGContent(slide, viewWidth, viewHeight, isHDExport = false) {
+      // Use 330 x 440 as our standard virtual viewBox canvas coordinate
+      const width = 330;
+      const height = 440;
+
+      const accent = appState.customAccentColor;
+      const bg = appState.customBgColor;
+      const fontSerif = appState.customTitleFont;
+      const fontSans = "var(--font-sans), Arial, sans-serif";
+
+      // Select appropriate theme colors dynamically based on background contrast
+      const contrast = getContrastColors(bg);
+      const textTitle = contrast.title;
+      const textBody = contrast.body;
+      const textMuted = contrast.muted;
+
+      // 3. Determine dynamic image container boundaries based on slide layout
+      let defaultW = width;
+      let defaultH = height;
+      let defaultY = 0;
+
+      if (slide.layout === 'cover' || slide.layout === 'bleed') {
+        defaultW = width;
+        defaultH = height;
+        defaultY = 0;
+      } else if (slide.layout === 'context' || slide.layout === 'stat') {
+        defaultW = 260;
+        defaultH = 200;
+        defaultY = 55;
+      } else if (slide.layout === 'quote') {
+        defaultW = 270;
+        defaultH = 240;
+        defaultY = 30;
+      } else if (slide.layout === 'standard') {
+        defaultW = 290;
+        defaultH = 220;
+        defaultY = 50;
+      }
+
+      // Determine image container dimensions and Y position based on selected ratio or layout defaults
+      let imgW = defaultW;
+      let imgH = defaultH;
+      let imgY = defaultY;
+
+      const ratio = slide.imageRatio || 'default';
+      if (ratio === 'full') {
+        imgW = 330;
+        imgH = 440;
+        imgY = 0;
+      } else if (ratio === 'landscape') {
+        imgW = 290;
+        imgH = 163; // Precise 16:9 ratio
+        imgY = 75;  // Golden spot: safe from top system headers & bottom description overlay
+      } else if (ratio === 'square') {
+        imgW = 260;
+        imgH = 260; // Precise 1:1 ratio
+        imgY = 65;  // Golden spot: perfectly centered vertically
+      } else if (ratio === 'portrait') {
+        imgW = 200;
+        imgH = 356; // Precise 9:16 ratio
+        imgY = 35;  // Golden spot: vertically centered and safe
+      } else if (slide.imageContainerWidth !== undefined && slide.imageContainerHeight !== undefined) {
+        imgW = slide.imageContainerWidth;
+        imgH = slide.imageContainerHeight;
+        imgY = slide.imageContainerY !== undefined ? slide.imageContainerY : defaultY;
+      }
+
+      const imgX = (width - imgW) / 2; // Horizontally center automatically
+
+      // Center coordinates of image for scaling/zoom operations
+      const cx = imgX + imgW / 2;
+      const cy = imgY + imgH / 2;
+      const imgClip = `clip-image-${slide.id}`;
+
+      // 1. Defs Block including gradients and dynamic photo crop paths
+      let defs = `
+        <defs>
+          <clipPath id="clip-full"><rect width="${width}" height="${height}" rx="6"/></clipPath>
+          <clipPath id="${imgClip}"><rect x="${imgX}" y="${imgY}" width="${imgW}" height="${imgH}" rx="${slide.layout === 'cover' || slide.layout === 'bleed' ? 6 : 4}"/></clipPath>
+          
+          <!-- Image Filters built directly inside SVG -->
+          <filter id="svg-grayscale">
+            <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0    0    0    1 0"/>
+          </filter>
+          
+          <filter id="svg-cool">
+            <feColorMatrix type="matrix" values="0.25 0.25 0.25 0 0
+                                                 0.2  0.25 0.3  0 0
+                                                 0.15 0.2  0.4  0 0
+                                                 0    0    0    1 0"/>
+          </filter>
+          
+          <filter id="svg-warm">
+            <feColorMatrix type="matrix" values="0.35 0.25 0.1  0 0
+                                                 0.3  0.25 0.05 0 0
+                                                 0.2  0.15 0.05 0 0
+                                                 0    0    0    1 0"/>
+          </filter>
+          
+          <filter id="svg-contrast">
+            <feComponentTransfer>
+              <feFuncR type="linear" slope="1.3" intercept="-0.15"/>
+              <feFuncG type="linear" slope="1.3" intercept="-0.15"/>
+              <feFuncB type="linear" slope="1.3" intercept="-0.15"/>
+            </feComponentTransfer>
+          </filter>
+        </defs>
+      `;
+
+      // 2. Base elements
+      let svgOpen = `<svg width="${viewWidth}" height="${viewHeight}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="background:${bg};">`;
+      let backgroundEl = `<rect width="${width}" height="${height}" fill="${bg}" rx="6"/>`;
+
+      // Top Color accent bar
+      let topBarEl = `<rect x="0" y="0" width="${width}" height="3.5" fill="${accent}"/>`;
+
+      // 3. Render Photo Zone inside SVG
+      let imageEl = '';
+
+      // Compile Image transformation logic
+      const scale = slide.imageScale || 1.0;
+      const moveX = slide.imageX || 0;
+      const moveY = slide.imageY || 0;
+
+      // Transform origin must center the scaling operation
+      const transformAttr = `transform="translate(${moveX}, ${moveY}) translate(${cx}, ${cy}) scale(${scale}) translate(${-cx}, ${-cy})"`;
+
+      // Determine SVG photo filter
+      let filterAttr = '';
+      if (slide.image && slide.imageFilter && slide.imageFilter !== 'original') {
+        filterAttr = `filter="url(#svg-${slide.imageFilter})"`;
+      }
+
+      if (slide.image) {
+        // Render uploaded raster image (PNG/JPG)
+        imageEl = `
+          <g clip-path="url(#${imgClip})">
+            <g ${transformAttr}>
+              <image href="${slide.image}" x="${imgX}" y="${imgY}" width="${imgW}" height="${imgH}" preserveAspectRatio="xMidYMid slice" overflow="visible" style="overflow: visible;" ${filterAttr} />
+            </g>
+          </g>
+        `;
+      } else if (!isHDExport) {
+        // Inside live preview, show the dashed helper upload placeholder SVG
+        imageEl = `
+          <g clip-path="url(#${imgClip})">
+            <g ${transformAttr}>
+              <image href="${PLACEHOLDER_IMG_BASE64}" x="${imgX}" y="${imgY}" width="${imgW}" height="${imgH}" preserveAspectRatio="xMidYMid slice" overflow="visible" style="overflow: visible;" />
+            </g>
+          </g>
+        `;
+      } else {
+        // Inside exported PNG, if no image is uploaded, render a solid dark background instead of editor helper text!
+        imageEl = `
+          <g clip-path="url(#${imgClip})">
+            <rect x="${imgX}" y="${imgY}" width="${imgW}" height="${imgH}" fill="#16161a" rx="${slide.layout === 'cover' || slide.layout === 'bleed' ? 6 : 4}" />
+          </g>
+        `;
+      }
+
+      // 4. Overlays & Tint Grades
+      let overlaysEl = '';
+      if (appState.activeTheme === 'silver_documentary') {
+        // Cool blue cinematic overlay grade
+        overlaysEl = `<rect x="0" y="0" width="${width}" height="${height}" fill="#1C2B3A" opacity="0.52" clip-path="url(#clip-full)" style="mix-blend-mode: color-burn;" />`;
+      } else if (slide.layout === 'cover' || slide.layout === 'bleed') {
+        // Deep bottom gradient for dark cover text readibility (matches background color)
+        overlaysEl = `
+          <g clip-path="url(#clip-full)">
+            <rect x="0" y="220" width="${width}" height="220" fill="url(#bottomGrad)" opacity="0.9" />
+          </g>
+          <defs>
+            <linearGradient id="bottomGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${bg}" stop-opacity="0" />
+              <stop offset="60%" stop-color="${bg}" stop-opacity="0.8" />
+              <stop offset="100%" stop-color="${bg}" stop-opacity="1" />
+            </linearGradient>
+          </defs>
+        `;
+      }
+
+      // 5. Build texts and badges elements dynamically per layout
+      let textGroupEl = '';
+      const handleStr = slide.handleText || '@nguachinhongmao';
+      const seriesStr = slide.seriesText || 'TÔI ĐÃ LÀM ĐƯỢC GÌ Ở TUỔI 20+';
+
+      // Standard bottom footer handle element
+      const footerHandleEl = `<text x="310" y="425" font-family="${fontSans}" font-size="7.5" fill="${textMuted}" font-weight="500" text-anchor="end">${escapeHTML(handleStr)}</text>`;
+
+      if (slide.layout === 'cover') {
+        // COVER LAYOUT
+        textGroupEl = `
+          <!-- Series indicator -->
+          <text x="20" y="30" font-family="${fontSans}" font-size="8.5" fill="${accent}" font-weight="700" letter-spacing="2.5">${escapeHTML(seriesStr)}</text>
+          
+          <!-- Divider line -->
+          <line x1="20" y1="262" x2="310" y2="262" stroke="${accent}" stroke-width="0.5" opacity="0.8" />
+          
+          <!-- Large headline serif style -->
+          ${drawMultiLineText(slide.title || 'Tiêu đề lớn', 20, 290, 24, `font-family="${fontSerif}" font-size="20" fill="${textTitle}" font-weight="bold"`)}
+          
+          <!-- Description / Subtitle -->
+          ${drawMultiLineText(slide.subtitle || 'Văn bản phụ đề', 20, 345, 14, `font-family="${fontSans}" font-size="9.5" fill="${textBody}" font-weight="400"`)}
+          
+          <!-- Role/Context Badge on bottom left -->
+          ${slide.badgeText ? `
+            <g transform="translate(20, 380)">
+              <rect x="0" y="0" width="160" height="20" rx="2" fill="${accent}" opacity="0.12" />
+              <rect x="0" y="0" width="2.5" height="20" fill="${accent}" />
+              <text x="8" y="13.5" font-family="${fontSans}" font-size="8.5" fill="${accent}" font-weight="600">${escapeHTML(slide.badgeText)}</text>
+            </g>
+          ` : ''}
+          
+          ${footerHandleEl}
+        `;
+      }
+      else if (slide.layout === 'context') {
+        // CONTEXT EVENT LAYOUT
+        const cornerBadgeText = slide.badgeTopRight || '';
+        textGroupEl = `
+          <!-- Header stats/index -->
+          <text x="20" y="30" font-family="${fontSans}" font-size="8.5" fill="${textMuted}" font-weight="700" letter-spacing="2">No. 02</text>
+          
+          <!-- Dynamic Top Right Badge -->
+          ${cornerBadgeText ? `
+            <g transform="translate(230, 14)">
+              <rect x="0" y="0" width="80" height="18" rx="2" fill="#cc0000" />
+              <text x="40" y="11.5" font-family="${fontSans}" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">${escapeHTML(cornerBadgeText)}</text>
+            </g>
+          ` : ''}
+
+          <!-- Dark Overlay beneath cropped image -->
+          <rect x="0" y="270" width="${width}" height="170" fill="${bg}" opacity="0.9" />
+          <line x1="20" y1="285" x2="310" y2="285" stroke="${accent}" stroke-width="0.5" opacity="0.3" />
+
+          <!-- Narrative headline and lines -->
+          ${drawMultiLineText(slide.title || 'Tiêu đề context', 20, 310, 18, `font-family="${fontSerif}" font-size="14" fill="${textTitle}" font-weight="bold"`)}
+          ${drawMultiLineText(slide.subtitle || 'Dòng mô tả bối cảnh', 20, 355, 14, `font-family="${fontSans}" font-size="9" fill="${textBody}"`)}
+          
+          ${footerHandleEl}
+        `;
+      }
+      else if (slide.layout === 'quote') {
+        // QUOTE LAYOUT
+        const isMutedTheme = appState.activeTheme === 'silver_documentary';
+
+        textGroupEl = `
+          <rect x="0" y="280" width="${width}" height="160" fill="${bg}" opacity="0.92" />
+          
+          <!-- Alignment and formatting adjusted dynamically for theme -->
+          ${isMutedTheme ? `
+            <!-- Minimalist Centered Quote -->
+            ${drawMultiLineText(slide.title || 'Lời trích dẫn', width / 2, 318, 18, `font-family="${fontSerif}" font-size="12" fill="${textTitle}" font-style="italic" text-anchor="middle"`)}
+            <line x1="125" y1="355" x2="205" y2="355" stroke="${accent}" stroke-width="0.5" opacity="0.5" />
+            <text x="165" y="375" font-family="${fontSans}" font-size="8" fill="${accent}" font-weight="500" text-anchor="middle">${escapeHTML(slide.quoteAuthor || '— Khuyết danh')}</text>
+          ` : `
+            <!-- Moody Highlight Gold Quote -->
+            <line x1="20" y1="300" x2="80" y2="300" stroke="${accent}" stroke-width="1.5" />
+            ${drawMultiLineText(slide.title || 'Lời trích dẫn', 20, 328, 18, `font-family="${fontSerif}" font-size="13" fill="${textTitle}" font-style="italic" font-weight="bold"`)}
+            <text x="20" y="380" font-family="${fontSans}" font-size="8.5" fill="${textMuted}">${escapeHTML(slide.quoteAuthor || '— góc nhìn cá nhân')}</text>
+          `}
+          
+          ${footerHandleEl}
+        `;
+      }
+      else if (slide.layout === 'standard') {
+        // STANDARD PORTRAIT WITH CTA CLOSE
+        const cornerBadgeText = slide.badgeTopRight || '';
+
+        textGroupEl = `
+          <!-- Header series -->
+          <text x="20" y="30" font-family="${fontSans}" font-size="8.5" fill="${textMuted}" font-weight="700" letter-spacing="2">No. 04</text>
+          
+          <!-- Top Left Badge for newspaper brand -->
+          ${cornerBadgeText ? `
+            <g transform="translate(20, 14)">
+              <rect x="0" y="0" width="130" height="18" rx="2" fill="#8B0000" opacity="0.9" />
+              <text x="65" y="12" font-family="${fontSans}" font-size="8" fill="#ffffff" font-weight="bold" text-anchor="middle">${escapeHTML(cornerBadgeText)}</text>
+            </g>
+          ` : ''}
+
+          <!-- Dark block -->
+          <rect x="0" y="285" width="${width}" height="155" fill="${bg}" opacity="0.9" />
+          <line x1="20" y1="295" x2="310" y2="295" stroke="${accent}" stroke-width="0.5" opacity="0.4" />
+
+          <!-- Text rows -->
+          ${drawMultiLineText(slide.title || 'Tiêu đề tổng kết', 20, 318, 18, `font-family="${fontSerif}" font-size="14" fill="${textTitle}" font-weight="bold"`)}
+          ${drawMultiLineText(slide.subtitle || 'Dòng bài học triết lý đúc rút', 20, 360, 13, `font-family="${fontSans}" font-size="9" fill="${textBody}"`)}
+          
+          ${footerHandleEl}
+        `;
+      }
+      else if (slide.layout === 'stat') {
+        // HIGH VALUE STATISTICS LAYOUT
+        const num = slide.statNumber || '01';
+        const label = slide.statLabel || 'Số liệu thống kê';
+
+        textGroupEl = `
+          <!-- Stat visual section bottom -->
+          <rect x="0" y="265" width="${width}" height="175" fill="${bg}" opacity="0.93" />
+          
+          <!-- Huge number highlight -->
+          <text x="24" y="318" font-family="${fontSerif}" font-size="52" fill="${textTitle}" font-weight="bold">${escapeHTML(num)}</text>
+          
+          <!-- Horizontal divide -->
+          <line x1="24" y1="332" x2="150" y2="332" stroke="${accent}" stroke-width="0.75" opacity="0.8" />
+          
+          <!-- Label descriptions -->
+          ${drawMultiLineText(label, 24, 352, 14, `font-family="${fontSans}" font-size="9" fill="${textBody}" font-weight="500"`)}
+          ${drawMultiLineText(slide.subtitle || 'Thông tin phụ bổ sung cho số liệu', 24, 385, 12, `font-family="${fontSans}" font-size="8.5" fill="${textMuted}"`)}
+          
+          ${footerHandleEl}
+        `;
+      }
+      else if (slide.layout === 'bleed') {
+        // FULL BLEED POSTER STYLE
+        textGroupEl = `
+          <!-- Minimal text directly layout overlay -->
+          <rect x="0" y="320" width="${width}" height="120" fill="url(#bottomGrad)" opacity="0.8" />
+          
+          <text x="24" y="360" font-family="${fontSans}" font-size="7.5" fill="${accent}" font-weight="700" letter-spacing="3">${escapeHTML(seriesStr)}</text>
+          ${drawMultiLineText(slide.title || 'Tiêu đề Poster', 24, 385, 16, `font-family="${fontSerif}" font-size="15" fill="${textTitle}" font-weight="bold"`)}
+          
+          ${footerHandleEl}
+        `;
+      }
+
+      // Compile final elements and close SVG
+      return svgOpen + defs + backgroundEl + imageEl + overlaysEl + topBarEl + textGroupEl + `</svg>`;
+    }
+
+    // ==========================================
+    // EXPORT SYSTEM (SVG TO HIGH RES PNG CANVAS)
+    // ==========================================
+
+    // Toast helper
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    let preRenderTimeout = null;
+    function preRenderActiveSlideToPNG() {
+      if (preRenderTimeout) clearTimeout(preRenderTimeout);
+
+      // Debounce with 250ms delay to keep text typing extremely fluid and performant
+      preRenderTimeout = setTimeout(() => {
+        const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+        if (!activeSlide) return;
+
+        const exportW = 1080;
+        const exportH = 1440;
+
+        const canvas = document.getElementById('export-canvas');
+        if (!canvas) return;
+        canvas.width = exportW;
+        canvas.height = exportH;
+        const ctx = canvas.getContext('2d');
+
+        // Draw HD SVG
+        const svgString = generateSVGContent(activeSlide, exportW, exportH, true);
+        
+        // Use URL-encoded UTF-8 Data URL to bypass local sandbox and prevent call stack memory crashes on large images
+        const urlEncodedSvg = "data:image/svg+xml;utf8," + encodeURIComponent(svgString);
+
+        const img = new Image();
+        img.onload = function () {
+          ctx.clearRect(0, 0, exportW, exportH);
+          ctx.drawImage(img, 0, 0);
+          try {
+            if (appState.activeSlidePNGBlobURL) {
+              URL.revokeObjectURL(appState.activeSlidePNGBlobURL);
+            }
+            canvas.toBlob(function (blob) {
+              if (blob) {
+                appState.activeSlidePNGBlobURL = URL.createObjectURL(blob);
+              }
+            }, 'image/png');
+          } catch (e) {
+            console.error("Canvas pre-render serialization error: ", e);
+          }
+        };
+        img.onerror = function (err) {
+          console.error("Pre-rendering image loader failure: ", err);
+        };
+        img.src = urlEncodedSvg;
+      }, 250);
+    }
+
+    // Single click download for current slide — 100% synchronous to bypass pop-up blockers!
+    function downloadCurrentPNG() {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!activeSlide) return;
+
+      const idx = appState.slides.findIndex(s => s.id === appState.activeSlideId);
+
+      if (appState.activeSlidePNGBlobURL) {
+        // Synchronous immediate download — 100% immune to modern browser ad/pop-up blockers!
+        const dlAnchor = document.createElement('a');
+        dlAnchor.href = appState.activeSlidePNGBlobURL;
+        dlAnchor.download = `tiktok_slide_${idx + 1}_${activeSlide.layout}.png`;
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        document.body.removeChild(dlAnchor);
+        showToast("Đã tải xuống slide thành công!");
+      } else {
+        // Asynchronous fallback if they clicked instantly before pre-render finalized
+        showToast("Đang kết xuất ảnh chất lượng cao...");
+        exportSlideToPNG(activeSlide, idx + 1, () => {
+          showToast("Đã tải xuống slide thành công!");
+        });
+      }
+    }
+
+    // Direct loop to download all slides sequentially with nice intervals and browser alerts
+    function exportAllAsPNGs() {
+      showToast("Bắt đầu kết xuất loạt HD PNG... Hãy nhấn 'Cho phép' (Allow) nếu trình duyệt hỏi!");
+      let delay = 0;
+
+      appState.slides.forEach((slide, idx) => {
+        setTimeout(() => {
+          exportSlideToPNG(slide, idx + 1, () => {
+            if (idx === appState.slides.length - 1) {
+              showToast("Hoàn tất tải xuống trọn bộ carousel!");
+            }
+          });
+        }, delay);
+        delay += 850; // 850ms delay to prevent browser from blocking multiple popups
+      });
+    }
+
+    function downloadSVGDirectly(slide, slideIndex) {
+      const exportW = 1080;
+      const exportH = 1440;
+      const svgString = generateSVGContent(slide, exportW, exportH, true);
+      
+      // Use URL-encoded UTF-8 Data URL to bypass local sandbox and guarantee correct download filename
+      const urlEncodedSvg = "data:image/svg+xml;utf8," + encodeURIComponent(svgString);
+
+      const dlAnchor = document.createElement('a');
+      dlAnchor.href = urlEncodedSvg;
+      dlAnchor.download = `tiktok_slide_${slideIndex}_${slide.layout}.svg`;
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      document.body.removeChild(dlAnchor);
+      showToast("Trình duyệt đã tải xuống file SVG vectơ siêu nét!");
+    }
+
+    // CORE CANVAS EXPORTER UTILITY
+    function exportSlideToPNG(slide, slideIndex, callback) {
+      // Standard professional aspect ratio 1080x1440 for pristine TikTok publication
+      const exportW = 1080;
+      const exportH = 1440;
+
+      const canvas = document.getElementById('export-canvas');
+      canvas.width = exportW;
+      canvas.height = exportH;
+      const ctx = canvas.getContext('2d');
+
+      // Render full high definition raw SVG string
+      const svgString = generateSVGContent(slide, exportW, exportH, true);
+
+      // Use URL-encoded UTF-8 Data URL to bypass local sandbox and prevent call stack memory crashes on large images
+      const urlEncodedSvg = "data:image/svg+xml;utf8," + encodeURIComponent(svgString);
+
+      const img = new Image();
+      img.onload = function () {
+        // Paint clean SVG on Canvas
+        ctx.clearRect(0, 0, exportW, exportH);
+        ctx.drawImage(img, 0, 0);
+
+        // Output clean PNG format
+        try {
+          canvas.toBlob(function (blob) {
+            if (!blob) {
+              console.error("Canvas toBlob serialization failed, falling back to SVG");
+              downloadSVGDirectly(slide, slideIndex);
+              if (callback) callback();
+              return;
+            }
+            const pngURL = URL.createObjectURL(blob);
+
+            // Trigger file download anchor
+            const dlAnchor = document.createElement('a');
+            dlAnchor.href = pngURL;
+            dlAnchor.download = `tiktok_slide_${slideIndex}_${slide.layout}.png`;
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            document.body.removeChild(dlAnchor);
+
+            // Cleanup after a tiny delay so browser begins download
+            setTimeout(() => {
+              URL.revokeObjectURL(pngURL);
+            }, 100);
+
+            if (callback) callback();
+          }, 'image/png');
+        } catch (e) {
+          console.error("Export Error, falling back to SVG file: ", e);
+          downloadSVGDirectly(slide, slideIndex);
+          if (callback) callback();
+        }
+      };
+
+      img.onerror = function (err) {
+        console.error("Image loader error, falling back to SVG file: ", err);
+        downloadSVGDirectly(slide, slideIndex);
+        if (callback) callback();
+      };
+
+      img.src = urlEncodedSvg;
+    }
+
+    // Copy Raw SVG Code helper
+    function copySVGCode() {
+      const activeSlide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!activeSlide) return;
+
+      const rawSvg = generateSVGContent(activeSlide, 330, 440, false);
+
+      navigator.clipboard.writeText(rawSvg)
+        .then(() => {
+          showToast("Đã sao chép mã SVG vào bộ nhớ đệm!");
+        })
+        .catch(err => {
+          alert("Không thể sao chép: " + err);
+        });
+    }
+
+    // ==========================================
+    // CANVA MINI: TEMPLATE PRESET LIBRARY SYSTEM
+    // ==========================================
+
+    const TEMPLATES_LIBRARY = {
+      luxury_cinematic: {
+        name: "Điện ảnh Sang Trọng",
+        accent: "#ef9f27",
+        bg: "#0d0d0c",
+        font: "Georgia, serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #0d0d0c 0%, #ef9f27 100%)"
+      },
+      red_era: {
+        name: "Kỷ nguyên Đỏ",
+        accent: "#e11d48",
+        bg: "#09090b",
+        font: "'Inter', sans-serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #09090b 0%, #e11d48 100%)"
+      },
+      elite_business: {
+        name: "Doanh nhân Trí tuệ",
+        accent: "#3b82f6",
+        bg: "#0f172a",
+        font: "'Montserrat', sans-serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #0f172a 0%, #3b82f6 100%)"
+      },
+      clean_minimalist: {
+        name: "Tối giản Tinh khôi",
+        accent: "#18181b",
+        bg: "#f4f4f5",
+        font: "Georgia, serif",
+        theme: "light_clean",
+        previewGradient: "linear-gradient(135deg, #f4f4f5 0%, #18181b 100%)"
+      },
+      cyberpunk_neon: {
+        name: "Công nghệ Tương lai",
+        accent: "#a855f7",
+        bg: "#020617",
+        font: "'Inter', sans-serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #020617 0%, #a855f7 100%)"
+      },
+      retro_doc: {
+        name: "Thời sự Cổ điển",
+        accent: "#d97706",
+        bg: "#1e1b18",
+        font: "Georgia, serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #1e1b18 0%, #d97706 100%)"
+      },
+      wealth_emerald: {
+        name: "Đế chế Tài chính",
+        accent: "#10b981",
+        bg: "#022c22",
+        font: "'Montserrat', sans-serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #022c22 0%, #10b981 100%)"
+      },
+      vibrant_magenta: {
+        name: "Nghệ thuật Sáng tạo",
+        accent: "#ec4899",
+        bg: "#111827",
+        font: "'Inter', sans-serif",
+        theme: "dark_cinematic",
+        previewGradient: "linear-gradient(135deg, #111827 0%, #ec4899 100%)"
+      },
+      vogue_editorial: {
+        name: "Tạp chí Vogue",
+        accent: "#000000",
+        bg: "#ffffff",
+        font: "'Playfair Display', Georgia, serif",
+        theme: "light_clean",
+        previewGradient: "linear-gradient(135deg, #ffffff 0%, #000000 100%)"
+      },
+      japanese_sand: {
+        name: "Zen Nhật Bản",
+        accent: "#7f1d1d",
+        bg: "#f5f5f4",
+        font: "Georgia, serif",
+        theme: "light_clean",
+        previewGradient: "linear-gradient(135deg, #f5f5f4 0%, #7f1d1d 100%)"
+      }
+    };
+
+    function switchSidebarTab(tabName) {
+      document.getElementById('tab-btn-slides').classList.toggle('active', tabName === 'slides');
+      document.getElementById('tab-btn-templates').classList.toggle('active', tabName === 'templates');
+      
+      document.getElementById('tab-btn-slides').style.color = tabName === 'slides' ? 'var(--color-brand)' : 'var(--text-tertiary)';
+      document.getElementById('tab-btn-slides').style.borderBottomColor = tabName === 'slides' ? 'var(--color-brand)' : 'transparent';
+      
+      document.getElementById('tab-btn-templates').style.color = tabName === 'templates' ? 'var(--color-brand)' : 'var(--text-tertiary)';
+      document.getElementById('tab-btn-templates').style.borderBottomColor = tabName === 'templates' ? 'var(--color-brand)' : 'transparent';
+
+      document.getElementById('pane-slides').style.display = tabName === 'slides' ? 'flex' : 'none';
+      document.getElementById('pane-templates').style.display = tabName === 'templates' ? 'flex' : 'none';
+      
+      if (tabName === 'templates') {
+        renderTemplatesLibrary();
+      }
+    }
+
+    function renderTemplatesLibrary() {
+      const listContainer = document.getElementById('templates-library-list');
+      if (!listContainer) return;
+      
+      listContainer.innerHTML = '';
+      
+      // Load custom templates from localStorage
+      let customTemplates = {};
+      try {
+        const stored = localStorage.getItem('user_custom_templates');
+        if (stored) {
+          customTemplates = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error("Error reading custom templates:", e);
+      }
+      
+      // Merge System templates with Custom templates
+      const allTemplates = { ...TEMPLATES_LIBRARY, ...customTemplates };
+      
+      Object.keys(allTemplates).forEach(templateId => {
+        const template = allTemplates[templateId];
+        const isCustom = templateId.startsWith('custom_');
+        
+        const cardContainer = document.createElement('div');
+        cardContainer.style.position = 'relative';
+        cardContainer.style.width = '110px';
+        
+        const card = document.createElement('div');
+        card.className = 'template-thumb-card';
+        card.onclick = () => confirmApplyTemplate(templateId);
+        
+        card.innerHTML = `
+          <div class="template-preview" style="background: ${template.previewGradient}; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; box-sizing: border-box;">
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.3); border-radius: 1px;"></div>
+            <div style="width: 70%; height: 4px; background: ${template.accent === '#000000' ? '#ef9f27' : template.accent}; border-radius: 1px;"></div>
+            <div style="width: 100%; height: 40px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 3px; display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="sparkles" style="width: 12px; height: 12px; color: ${template.accent === '#000000' ? '#ef9f27' : template.accent};"></i>
+            </div>
+            <div style="width: 90%; height: 3px; background: rgba(255,255,255,0.2); border-radius: 0.5px;"></div>
+            <div style="width: 50%; height: 3px; background: rgba(255,255,255,0.2); border-radius: 0.5px;"></div>
+          </div>
+          <div class="template-title">${template.name}</div>
+        `;
+        
+        cardContainer.appendChild(card);
+        
+        // If it's a custom template, add a beautiful delete button overlay on hover
+        if (isCustom) {
+          const deleteBtn = document.createElement('button');
+          deleteBtn.style.position = 'absolute';
+          deleteBtn.style.top = '2px';
+          deleteBtn.style.right = '2px';
+          deleteBtn.style.width = '18px';
+          deleteBtn.style.height = '18px';
+          deleteBtn.style.borderRadius = '9px';
+          deleteBtn.style.backgroundColor = 'rgba(239, 68, 68, 0.95)';
+          deleteBtn.style.border = 'none';
+          deleteBtn.style.color = '#fff';
+          deleteBtn.style.display = 'flex';
+          deleteBtn.style.alignItems = 'center';
+          deleteBtn.style.justifyContent = 'center';
+          deleteBtn.style.cursor = 'pointer';
+          deleteBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.5)';
+          deleteBtn.style.zIndex = '100';
+          deleteBtn.style.padding = '0';
+          deleteBtn.innerHTML = `<i data-lucide="trash-2" style="width: 9px; height: 9px;"></i>`;
+          
+          deleteBtn.onclick = (e) => {
+            e.stopPropagation(); // Prevent applying the template when clicking delete
+            deleteCustomTemplate(templateId);
+          };
+          
+          cardContainer.appendChild(deleteBtn);
+        }
+        
+        listContainer.appendChild(cardContainer);
+      });
+      
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function deleteCustomTemplate(templateId) {
+      if (!confirm("Bạn có chắc chắn muốn xóa mẫu thiết kế tùy chỉnh này không?")) return;
+      
+      try {
+        const stored = localStorage.getItem('user_custom_templates');
+        if (stored) {
+          const customTemplates = JSON.parse(stored);
+          delete customTemplates[templateId];
+          localStorage.setItem('user_custom_templates', JSON.stringify(customTemplates));
+          showToast("Đã xóa mẫu tùy chỉnh thành công!");
+          renderTemplatesLibrary();
+        }
+      } catch (e) {
+        console.error("Error deleting custom template:", e);
+      }
+    }
+
+    function triggerSaveCurrentAsTemplate() {
+      const templateName = prompt("Nhập tên cho mẫu thiết kế mới của bạn:", "Mẫu của tôi");
+      if (!templateName) return;
+      
+      const newTemplate = {
+        name: templateName,
+        accent: appState.customAccentColor,
+        bg: appState.customBgColor,
+        font: appState.customTitleFont,
+        theme: appState.activeTheme || 'dark_cinematic',
+        previewGradient: `linear-gradient(135deg, ${appState.customBgColor} 0%, ${appState.customAccentColor} 100%)`
+      };
+      
+      try {
+        let customTemplates = {};
+        const stored = localStorage.getItem('user_custom_templates');
+        if (stored) {
+          customTemplates = JSON.parse(stored);
+        }
+        
+        const templateId = 'custom_' + Date.now();
+        customTemplates[templateId] = newTemplate;
+        
+        localStorage.setItem('user_custom_templates', JSON.stringify(customTemplates));
+        showToast(`Đã lưu mẫu "${templateName}" thành công!`);
+        renderTemplatesLibrary();
+      } catch (e) {
+        console.error("Error saving custom template:", e);
+        alert("Có lỗi xảy ra khi lưu mẫu!");
+      }
+    }
+
+    function triggerImportTemplateJSON() {
+      document.getElementById('template-json-file-input').click();
+    }
+
+    function handleTemplateJSONUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const template = JSON.parse(e.target.result);
+          
+          // Validate schema
+          if (!template.name || !template.accent || !template.bg || !template.font) {
+            alert("File cấu hình JSON không hợp lệ! Vui lòng kiểm tra lại cấu trúc thuộc tính (phải có name, accent, bg, font).");
+            return;
+          }
+          
+          // Autofill optional fields if missing
+          if (!template.theme) {
+            const contrast = getContrastColors(template.bg);
+            template.theme = contrast.theme;
+          }
+          if (!template.previewGradient) {
+            template.previewGradient = `linear-gradient(135deg, ${template.bg} 0%, ${template.accent} 100%)`;
+          }
+          
+          // Save to localStorage
+          let customTemplates = {};
+          const stored = localStorage.getItem('user_custom_templates');
+          if (stored) {
+            customTemplates = JSON.parse(stored);
+          }
+          
+          const templateId = 'custom_' + Date.now();
+          customTemplates[templateId] = template;
+          
+          localStorage.setItem('user_custom_templates', JSON.stringify(customTemplates));
+          showToast(`Đã nhập khẩu mẫu "${template.name}" thành công!`);
+          renderTemplatesLibrary();
+        } catch (err) {
+          alert("Lỗi phân tích file JSON: " + err.message);
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmApplyTemplate(templateId) {
+      // Load custom templates to lookup
+      let customTemplates = {};
+      try {
+        const stored = localStorage.getItem('user_custom_templates');
+        if (stored) {
+          customTemplates = JSON.parse(stored);
+        }
+      } catch (e) {}
+      
+      const allTemplates = { ...TEMPLATES_LIBRARY, ...customTemplates };
+      const template = allTemplates[templateId];
+      if (!template) return;
+      
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+      modal.style.backdropFilter = 'blur(8px)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.zIndex = '10000';
+      
+      const content = document.createElement('div');
+      content.style.background = '#121214';
+      content.style.border = '1px solid #27272a';
+      content.style.borderRadius = '12px';
+      content.style.padding = '24px';
+      content.style.width = '380px';
+      content.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.5)';
+      content.style.textAlign = 'center';
+      content.style.color = '#fff';
+      
+      content.innerHTML = `
+        <div style="width: 50px; height: 50px; border-radius: 25px; background: ${template.previewGradient}; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+          <i data-lucide="palette" style="width: 24px; height: 24px; color: ${template.accent === '#000000' ? '#ffffff' : template.accent};"></i>
+        </div>
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; font-family: var(--font-sans), sans-serif;">Áp dụng Mẫu Thiết Kế</h3>
+        <p style="font-size: 13px; color: #a1a1aa; margin-bottom: 24px; line-height: 1.5; font-family: var(--font-sans), sans-serif;">Bạn muốn áp dụng mẫu màu sắc & phông chữ <span style="color: ${template.accent === '#000000' ? '#ef9f27' : template.accent}; font-weight: 600;">"${template.name}"</span> như thế nào?</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button id="btn-apply-one" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 13px; font-family: var(--font-sans), sans-serif;">
+            Áp dụng cho Slide hiện tại
+          </button>
+          <button id="btn-apply-all" class="btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 13px; border: 1px solid #3f3f46; font-family: var(--font-sans), sans-serif;">
+            Áp dụng cho Toàn bộ Slide
+          </button>
+          <button id="btn-apply-cancel" class="btn" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px; color: #a1a1aa; background: transparent; border: none; font-family: var(--font-sans), sans-serif;">
+            Hủy bỏ
+          </button>
+        </div>
+      `;
+      
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+      
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+      
+      document.getElementById('btn-apply-one').onclick = function() {
+        applyTemplateToActiveSlide(template);
+        document.body.removeChild(modal);
+        showToast(`Đã áp dụng mẫu "${template.name}" cho Slide hiện tại!`);
+      };
+      
+      document.getElementById('btn-apply-all').onclick = function() {
+        applyTemplateToAllSlides(template);
+        document.body.removeChild(modal);
+        showToast(`Đã áp dụng mẫu "${template.name}" cho toàn bộ Slide!`);
+      };
+      
+      document.getElementById('btn-apply-cancel').onclick = function() {
+        document.body.removeChild(modal);
+      };
+      
+      modal.onclick = function(e) {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
+      };
+    }
+
+    function applyTemplateToActiveSlide(template) {
+      appState.customAccentColor = template.accent;
+      appState.customBgColor = template.bg;
+      appState.customTitleFont = template.font;
+      appState.activeTheme = template.theme;
+      
+      const inputAccent = document.getElementById('custom-color-accent');
+      const inputBg = document.getElementById('custom-color-bg');
+      const valAccent = document.getElementById('val-color-accent');
+      const valBg = document.getElementById('val-color-bg');
+      const selectFont = document.getElementById('select-title-font');
+      
+      if (inputAccent) inputAccent.value = template.accent;
+      if (inputBg) inputBg.value = template.bg;
+      if (valAccent) valAccent.innerText = template.accent;
+      if (valBg) valBg.innerText = template.bg;
+      if (selectFont) selectFont.value = template.font;
+      
+      renderActiveSlide();
+      renderThumbnails();
+    }
+
+    function applyTemplateToAllSlides(template) {
+      applyTemplateToActiveSlide(template);
+    }
+  </script>
+</body>
+
+</html>

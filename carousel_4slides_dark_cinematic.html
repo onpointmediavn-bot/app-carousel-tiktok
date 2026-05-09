@@ -1,0 +1,148 @@
+
+<style>
+  body-eq { font-family: var(--font-sans); }
+  .page-wrap { padding: 1.5rem 0; }
+  .row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .frame-col { display: flex; flex-direction: column; align-items: center; }
+  .slide-num { font-size: 11px; color: var(--color-text-tertiary); margin-top: 8px; font-family: var(--font-sans); letter-spacing: 1px; }
+  .slide-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; font-family: var(--font-sans); text-align: center; max-width: 160px; line-height: 1.5; }
+  .legend { display: flex; gap: 20px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); font-family: var(--font-sans); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>
+
+<div class="page-wrap">
+
+<div class="row">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="frame-col">
+    <svg width="165" viewBox="0 0 330 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="c1"><rect width="330" height="440" rx="6"/></clipPath>
+      </defs>
+      <rect width="330" height="440" fill="#0D0D0C" rx="6"/>
+      <!-- Ảnh placeholder: IMG_1854 - đứng báo cáo, full frame -->
+      <rect x="0" y="0" width="330" height="440" fill="#1A1917" clip-path="url(#c1)"/>
+      <rect x="60" y="80" width="210" height="280" rx="4" fill="#2C2C2A" opacity="0.6"/>
+      <text x="165" y="200" font-family="Arial" font-size="11" fill="#888780" text-anchor="middle" letter-spacing="2">[ ẢNH IMG_1854 ]</text>
+      <text x="165" y="218" font-family="Arial" font-size="10" fill="#5F5E5A" text-anchor="middle">báo cáo tại bục</text>
+      <!-- dark overlay bottom -->
+      <rect x="0" y="240" width="330" height="200" fill="#0D0D0C" opacity="0.82"/>
+      <!-- amber top bar -->
+      <rect x="0" y="0" width="330" height="3" fill="#EF9F27"/>
+      <!-- series label -->
+      <text x="20" y="30" font-family="Arial" font-size="8" fill="#EF9F27" letter-spacing="2.5">TÔI ĐÃ LÀM ĐƯỢC GÌ Ở TUỔI 20+</text>
+      <!-- divider line -->
+      <line x1="20" y1="262" x2="310" y2="262" stroke="#EF9F27" stroke-width="0.5"/>
+      <!-- main text -->
+      <text x="20" y="290" font-family="Georgia,serif" font-size="22" fill="#FFFFFF" font-weight="bold">Báo cáo viên</text>
+      <text x="20" y="316" font-family="Georgia,serif" font-size="22" fill="#FFFFFF" font-weight="bold">chuyên đề</text>
+      <!-- sub -->
+      <text x="20" y="345" font-family="Arial" font-size="10" fill="#B4B2A9">Ứng dụng AI trong công tác Công An</text>
+      <text x="20" y="361" font-family="Arial" font-size="10" fill="#B4B2A9">tại Bộ Công An</text>
+      <!-- role badge -->
+      <rect x="20" y="380" width="110" height="20" rx="2" fill="#EF9F27" opacity="0.15"/>
+      <rect x="20" y="380" width="3" height="20" fill="#EF9F27"/>
+      <text x="30" y="394" font-family="Arial" font-size="9" fill="#EF9F27">Cương vị: "chuyên gia" AI</text>
+      <!-- handle -->
+      <text x="310" y="430" font-family="Arial" font-size="8" fill="#444441" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="slide-num">SLIDE 1 / COVER</p>
+    <p class="slide-desc">Ảnh đứng báo cáo full frame · overlay text dưới</p>
+  </div>
+
+  <!-- SLIDE 2: ANTV screenshot / hội trường -->
+  <div class="frame-col">
+    <svg width="165" viewBox="0 0 330 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="c2"><rect width="330" height="440" rx="6"/></clipPath>
+      </defs>
+      <rect width="330" height="440" fill="#0D0D0C" rx="6"/>
+      <rect x="0" y="0" width="330" height="440" fill="#1A1917" clip-path="url(#c2)"/>
+      <rect x="40" y="60" width="250" height="200" rx="4" fill="#2C2C2A" opacity="0.6"/>
+      <text x="165" y="155" font-family="Arial" font-size="11" fill="#888780" text-anchor="middle" letter-spacing="2">[ ẢNH IMG_1865 ]</text>
+      <text x="165" y="173" font-family="Arial" font-size="10" fill="#5F5E5A" text-anchor="middle">ANTV · hội trường · đại biểu</text>
+      <!-- top amber bar -->
+      <rect x="0" y="0" width="330" height="3" fill="#EF9F27"/>
+      <!-- ANTV badge top right -->
+      <rect x="255" y="12" width="55" height="18" rx="2" fill="#CC0000"/>
+      <text x="282" y="24" font-family="Arial" font-size="9" fill="#FFFFFF" font-weight="bold" text-anchor="middle">ANTV HD</text>
+      <!-- series -->
+      <text x="20" y="30" font-family="Arial" font-size="8" fill="#888780" letter-spacing="2">No. 01</text>
+      <!-- dark overlay -->
+      <rect x="0" y="280" width="330" height="160" fill="#0D0D0C" opacity="0.85"/>
+      <line x1="20" y1="295" x2="310" y2="295" stroke="#333" stroke-width="0.5"/>
+      <text x="20" y="320" font-family="Georgia,serif" font-size="15" fill="#FFFFFF">Sự kiện được phát sóng</text>
+      <text x="20" y="340" font-family="Georgia,serif" font-size="15" fill="#EF9F27">trực tiếp trên ANTV</text>
+      <text x="20" y="368" font-family="Arial" font-size="9.5" fill="#888780">Trong hội trường Bộ Công An —</text>
+      <text x="20" y="383" font-family="Arial" font-size="9.5" fill="#888780">cùng hàng trăm cán bộ chiến sĩ.</text>
+      <text x="310" y="430" font-family="Arial" font-size="8" fill="#444441" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="slide-num">SLIDE 2</p>
+    <p class="slide-desc">Ảnh hội trường ANTV · nhấn bối cảnh nặng ký</p>
+  </div>
+
+  <!-- SLIDE 3: cận mặt / đại biểu -->
+  <div class="frame-col">
+    <svg width="165" viewBox="0 0 330 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="c3"><rect width="330" height="440" rx="6"/></clipPath>
+      </defs>
+      <rect width="330" height="440" fill="#0D0D0C" rx="6"/>
+      <rect x="0" y="0" width="330" height="440" fill="#1A1917" clip-path="url(#c3)"/>
+      <rect x="30" y="30" width="270" height="240" rx="4" fill="#2C2C2A" opacity="0.6"/>
+      <text x="165" y="148" font-family="Arial" font-size="11" fill="#888780" text-anchor="middle" letter-spacing="2">[ ẢNH IMG_1865 ]</text>
+      <text x="165" y="166" font-family="Arial" font-size="10" fill="#5F5E5A" text-anchor="middle">crop cận · ngồi ghế đại biểu</text>
+      <rect x="0" y="0" width="330" height="3" fill="#EF9F27"/>
+      <!-- overlay top dark for text -->
+      <rect x="0" y="290" width="330" height="150" fill="#0D0D0C" opacity="0.88"/>
+      <line x1="20" y1="302" x2="80" y2="302" stroke="#EF9F27" stroke-width="1.5"/>
+      <text x="20" y="330" font-family="Georgia,serif" font-size="13" fill="#FFFFFF" font-style="italic">"Tôi là người trẻ nhất</text>
+      <text x="20" y="350" font-family="Georgia,serif" font-size="13" fill="#FFFFFF" font-style="italic">trong phòng hôm đó."</text>
+      <text x="20" y="380" font-family="Arial" font-size="9" fill="#5F5E5A">— góc nhìn cá nhân</text>
+      <text x="310" y="430" font-family="Arial" font-size="8" fill="#444441" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="slide-num">SLIDE 3</p>
+    <p class="slide-desc">Crop cận · câu quote cá nhân · cảm xúc thật</p>
+  </div>
+
+  <!-- SLIDE 4: báo CAND -->
+  <div class="frame-col">
+    <svg width="165" viewBox="0 0 330 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="c4"><rect width="330" height="440" rx="6"/></clipPath>
+      </defs>
+      <rect width="330" height="440" fill="#0D0D0C" rx="6"/>
+      <rect x="0" y="0" width="330" height="440" fill="#1A1917" clip-path="url(#c4)"/>
+      <rect x="20" y="50" width="290" height="220" rx="4" fill="#2C2C2A" opacity="0.6"/>
+      <text x="165" y="155" font-family="Arial" font-size="11" fill="#888780" text-anchor="middle" letter-spacing="2">[ ẢNH IMG_1908 ]</text>
+      <text x="165" y="173" font-family="Arial" font-size="10" fill="#5F5E5A" text-anchor="middle">screenshot báo CAND online</text>
+      <rect x="0" y="0" width="330" height="3" fill="#EF9F27"/>
+      <!-- báo CAND badge -->
+      <rect x="20" y="14" width="160" height="18" rx="2" fill="#8B0000" opacity="0.9"/>
+      <text x="100" y="26" font-family="Arial" font-size="8.5" fill="#FFFFFF" font-weight="bold" text-anchor="middle">Công An Nhân Dân Online</text>
+      <rect x="0" y="288" width="330" height="152" fill="#0D0D0C" opacity="0.88"/>
+      <line x1="20" y1="302" x2="310" y2="302" stroke="#333" stroke-width="0.5"/>
+      <text x="20" y="328" font-family="Georgia,serif" font-size="15" fill="#FFFFFF">Được đưa tin trên</text>
+      <text x="20" y="350" font-family="Georgia,serif" font-size="15" fill="#EF9F27">báo Công An Nhân Dân</text>
+      <text x="20" y="378" font-family="Arial" font-size="9" fill="#888780">Bài học: Đôi lúc bạn không cần</text>
+      <text x="20" y="393" font-family="Arial" font-size="9" fill="#888780">xin ai cả — chỉ cần đủ giỏi để</text>
+      <text x="20" y="408" font-family="Arial" font-size="9" fill="#888780">được mời vào phòng.</text>
+      <text x="310" y="430" font-family="Arial" font-size="8" fill="#444441" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="slide-num">SLIDE 4 / CLOSE</p>
+    <p class="slide-desc">Ảnh báo CAND · câu bài học kết · punchline</p>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#EF9F27"></div>Amber accent</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FFFFFF; border:1px solid #444"></div>Headline serif</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#888780"></div>Body muted</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#0D0D0C; border:1px solid #333"></div>Nền #0D0D0C</div>
+</div>
+
+</div>

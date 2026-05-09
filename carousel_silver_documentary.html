@@ -1,0 +1,119 @@
+
+<style>
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .col { display: flex; flex-direction: column; align-items: center; }
+  .lbl { font-size: 11px; color: var(--color-text-tertiary); margin-top: 8px; letter-spacing: 1px; }
+  .sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; text-align: center; max-width: 155px; line-height: 1.5; }
+  .compare-note { margin-top: 2rem; padding: 1rem 1.25rem; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); max-width: 580px; margin-left: auto; margin-right: auto; }
+  .compare-note p { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.7; }
+  .compare-note strong { color: var(--color-text-primary); font-weight: 500; }
+</style>
+
+<div class="wrap">
+<div class="row">
+
+  <!-- SLIDE 1: COVER POSTER -->
+  <div class="col">
+    <svg width="160" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="s1"><rect width="300" height="400" rx="6"/></clipPath></defs>
+      <rect width="300" height="400" fill="#C8C9CA" rx="6"/>
+      <!-- ảnh zone - silver tinted placeholder -->
+      <rect x="0" y="0" width="300" height="400" fill="#B0B3B8" clip-path="url(#s1)"/>
+      <!-- figure suggestion -->
+      <rect x="95" y="60" width="110" height="200" rx="4" fill="#8A8D91" opacity="0.4"/>
+      <text x="150" y="160" font-family="Arial" font-size="9" fill="#6B6E72" text-anchor="middle">IMG_1854</text>
+      <!-- silver-cool grade overlay full -->
+      <rect x="0" y="0" width="300" height="400" fill="#1C2B3A" opacity="0.55" clip-path="url(#s1)"/>
+      <!-- top — series in tiny caps, centered -->
+      <text x="150" y="28" font-family="Georgia,serif" font-size="7.5" fill="#A8B4BF" text-anchor="middle" letter-spacing="3">TÔI ĐÃ LÀM ĐƯỢC GÌ Ở TUỔI 20+</text>
+      <!-- thin rule top -->
+      <line x1="40" y1="34" x2="260" y2="34" stroke="#A8B4BF" stroke-width="0.4" opacity="0.5"/>
+      <!-- MAIN TITLE — very large, bottom third -->
+      <text x="24" y="310" font-family="Georgia,serif" font-size="32" fill="#FFFFFF" font-weight="bold">Báo cáo</text>
+      <text x="24" y="348" font-family="Georgia,serif" font-size="32" fill="#FFFFFF" font-weight="bold">viên</text>
+      <!-- thin rule before subtitle -->
+      <line x1="24" y1="358" x2="276" y2="358" stroke="#FFFFFF" stroke-width="0.4" opacity="0.3"/>
+      <!-- minimal sub — one line only -->
+      <text x="24" y="378" font-family="Arial" font-size="8.5" fill="#A8B4BF" letter-spacing="0.5">Bộ Công An  ·  Hà Nội</text>
+      <!-- handle far right -->
+      <text x="276" y="394" font-family="Arial" font-size="7" fill="#6B7F8E" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="lbl">SLIDE 1 / COVER</p>
+    <p class="sub">Full ảnh · title lớn · sub 1 dòng</p>
+  </div>
+
+  <!-- SLIDE 2: CONTEXT — ANTV -->
+  <div class="col">
+    <svg width="160" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="s2"><rect width="300" height="400" rx="6"/></clipPath></defs>
+      <rect width="300" height="400" fill="#B0B3B8" rx="6"/>
+      <rect x="0" y="0" width="300" height="400" fill="#9EA3A8" clip-path="url(#s2)"/>
+      <rect x="20" y="80" width="260" height="180" rx="3" fill="#7A7E83" opacity="0.4"/>
+      <text x="150" y="175" font-family="Arial" font-size="9" fill="#5A5E63" text-anchor="middle">IMG_1865 — hội trường</text>
+      <!-- cool grade -->
+      <rect x="0" y="0" width="300" height="400" fill="#1C2B3A" opacity="0.6" clip-path="url(#s2)"/>
+      <!-- ANTV badge — minimal, top right -->
+      <rect x="220" y="16" width="64" height="16" rx="2" fill="#FFFFFF" opacity="0.12"/>
+      <text x="252" y="27" font-family="Arial" font-size="7.5" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">ANTV · HD</text>
+      <!-- single stat big -->
+      <text x="24" y="285" font-family="Georgia,serif" font-size="56" fill="#FFFFFF" font-weight="bold" opacity="0.9">01</text>
+      <line x1="24" y1="300" x2="130" y2="300" stroke="#A8B4BF" stroke-width="0.5" opacity="0.6"/>
+      <text x="24" y="320" font-family="Arial" font-size="9" fill="#C8CDD2" letter-spacing="0.5">Sự kiện phát sóng trực tiếp</text>
+      <text x="24" y="338" font-family="Arial" font-size="9" fill="#8A97A2">tại Bộ Công An</text>
+      <text x="276" y="394" font-family="Arial" font-size="7" fill="#4A5E6E" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="lbl">SLIDE 2</p>
+    <p class="sub">Số lớn "01" · bối cảnh ANTV</p>
+  </div>
+
+  <!-- SLIDE 3: HUMAN MOMENT -->
+  <div class="col">
+    <svg width="160" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="s3"><rect width="300" height="400" rx="6"/></clipPath></defs>
+      <rect width="300" height="400" fill="#A8ABB0" rx="6"/>
+      <rect x="0" y="0" width="300" height="400" fill="#95999E" clip-path="url(#s3)"/>
+      <rect x="30" y="40" width="240" height="260" rx="3" fill="#707478" opacity="0.4"/>
+      <text x="150" y="170" font-family="Arial" font-size="9" fill="#4E5256" text-anchor="middle">IMG_1865 — crop cận mặt</text>
+      <rect x="0" y="0" width="300" height="400" fill="#1C2B3A" opacity="0.52" clip-path="url(#s3)"/>
+      <!-- quote — italic, centered, minimal -->
+      <text x="150" y="310" font-family="Georgia,serif" font-size="13" fill="#FFFFFF" font-style="italic" text-anchor="middle">"Tôi là người</text>
+      <text x="150" y="330" font-family="Georgia,serif" font-size="13" fill="#FFFFFF" font-style="italic" text-anchor="middle">trẻ nhất trong phòng."</text>
+      <line x1="120" y1="343" x2="180" y2="343" stroke="#A8B4BF" stroke-width="0.5" opacity="0.5"/>
+      <text x="150" y="360" font-family="Arial" font-size="7.5" fill="#7A8D9A" text-anchor="middle" letter-spacing="0.5">Quốc Khánh · 22 tuổi</text>
+      <text x="276" y="394" font-family="Arial" font-size="7" fill="#4A5E6E" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="lbl">SLIDE 3</p>
+    <p class="sub">Crop cận · quote ngắn · centered</p>
+  </div>
+
+  <!-- SLIDE 4: CLOSE — báo CAND -->
+  <div class="col">
+    <svg width="160" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="s4"><rect width="300" height="400" rx="6"/></clipPath></defs>
+      <rect width="300" height="400" fill="#B0B3B8" rx="6"/>
+      <rect x="0" y="0" width="300" height="400" fill="#9EA3A8" clip-path="url(#s4)"/>
+      <rect x="10" y="30" width="280" height="240" rx="3" fill="#757A7F" opacity="0.4"/>
+      <text x="150" y="150" font-family="Arial" font-size="9" fill="#4E5256" text-anchor="middle">IMG_1908 — báo CAND</text>
+      <rect x="0" y="0" width="300" height="400" fill="#1C2B3A" opacity="0.62" clip-path="url(#s4)"/>
+      <!-- punchline — 2 lines, big weight -->
+      <text x="24" y="298" font-family="Georgia,serif" font-size="16" fill="#FFFFFF" font-weight="bold">Đôi lúc bạn không</text>
+      <text x="24" y="320" font-family="Georgia,serif" font-size="16" fill="#FFFFFF" font-weight="bold">cần xin vào —</text>
+      <text x="24" y="342" font-family="Georgia,serif" font-size="16" fill="#A8B4BF" font-style="italic">được mời mới vào.</text>
+      <line x1="24" y1="356" x2="276" y2="356" stroke="#FFFFFF" stroke-width="0.3" opacity="0.2"/>
+      <text x="24" y="376" font-family="Arial" font-size="7.5" fill="#6B7F8E" letter-spacing="1">CÔNG AN NHÂN DÂN ONLINE</text>
+      <text x="276" y="394" font-family="Arial" font-size="7" fill="#4A5E6E" text-anchor="end">@nguachinhongmao</text>
+    </svg>
+    <p class="lbl">SLIDE 4 / CLOSE</p>
+    <p class="sub">Punchline lớn · nguồn báo nhỏ</p>
+  </div>
+
+</div>
+
+<!-- So sánh 2 concept -->
+<div class="compare-note">
+  <p><strong>Dark Cinematic</strong> — nền #0D0D0C, amber #EF9F27, text overlay dưới, nhiều thông tin hơn, cảm giác <strong>nặng ký · chuyên nghiệp</strong></p>
+  <p style="margin-top:8px"><strong>Silver Documentary</strong> — grade xanh lạnh #1C2B3A, silver muted, text tối giản như poster phim, cảm giác <strong>điện ảnh · tự sự · nghệ thuật</strong></p>
+</div>
+
+</div>
