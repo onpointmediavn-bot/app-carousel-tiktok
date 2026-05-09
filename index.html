@@ -3129,6 +3129,7 @@
         const dlAnchor = document.createElement('a');
         dlAnchor.href = appState.activeSlidePNGBlobURL;
         dlAnchor.download = `tiktok_slide_${idx + 1}_${activeSlide.layout}.png`;
+        dlAnchor.target = '_blank';
         document.body.appendChild(dlAnchor);
         dlAnchor.click();
         document.body.removeChild(dlAnchor);
@@ -3170,6 +3171,7 @@
       const dlAnchor = document.createElement('a');
       dlAnchor.href = urlEncodedSvg;
       dlAnchor.download = `tiktok_slide_${slideIndex}_${slide.layout}.svg`;
+      dlAnchor.target = '_blank';
       document.body.appendChild(dlAnchor);
       dlAnchor.click();
       document.body.removeChild(dlAnchor);
@@ -3214,6 +3216,7 @@
             const dlAnchor = document.createElement('a');
             dlAnchor.href = pngURL;
             dlAnchor.download = `tiktok_slide_${slideIndex}_${slide.layout}.png`;
+            dlAnchor.target = '_blank';
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             document.body.removeChild(dlAnchor);
