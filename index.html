@@ -171,6 +171,14 @@
       box-shadow: 0 6px 16px rgba(239, 159, 39, 0.3);
     }
 
+    .btn.active {
+      background: var(--color-brand);
+      border-color: var(--color-brand);
+      color: #0d0d0c;
+      font-weight: 600;
+    }
+
+
     /* Main Workspace */
     .app-workspace {
       flex: 1;
@@ -1088,8 +1096,103 @@
               <input type="text" class="text-input" id="txt-handle" placeholder="@nguachinhongmao"
                 oninput="updateActiveSlideText('handleText', this.value)">
             </div>
+
+            <!-- FINE-TUNING CONTROLS SECTION -->
+            <div style="border-top: 1px dashed var(--border-panel); margin-top: 1.5rem; padding-top: 1.25rem;">
+              <div class="setting-group-title" style="margin-bottom: 1rem; color: var(--color-brand); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
+                <i data-lucide="sliders" style="width: 12px; height: 12px;"></i> Căn Chỉnh Vị Trí &amp; Cỡ Chữ
+              </div>
+
+              <!-- Align & Position of Headline (Title) -->
+              <div style="margin-bottom: 1.25rem; background: rgba(255,255,255,0.02); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-panel);">
+                <span class="control-label" style="font-weight: 700; display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px;">Tiêu đề chính (Headline)</span>
+                
+                <div style="margin-bottom: 0.75rem;">
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Căn lề chữ (Alignment)</label>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn" id="btn-align-title-left" onclick="setSlideTextAttribute('titleAlign', 'left')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Trái</button>
+                    <button class="btn" id="btn-align-title-center" onclick="setSlideTextAttribute('titleAlign', 'center')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Giữa</button>
+                    <button class="btn" id="btn-align-title-right" onclick="setSlideTextAttribute('titleAlign', 'right')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Phải</button>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 0.75rem;">
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Bù trừ Cỡ chữ (Size Offset)</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="slide-title-size" min="-10" max="20" step="1" value="0"
+                      oninput="updateSlideTextAttribute('titleSize', this.value)">
+                    <span class="slider-value" id="val-title-size">0px</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Dịch dọc Y (Vertical Y)</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="slide-title-y" min="-100" max="100" step="1" value="0"
+                      oninput="updateSlideTextAttribute('titleY', this.value)">
+                    <span class="slider-value" id="val-title-y">0px</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Align & Position of Subtitle -->
+              <div style="margin-bottom: 1.25rem; background: rgba(255,255,255,0.02); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-panel);">
+                <span class="control-label" style="font-weight: 700; display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px;">Phụ đề / Mô tả (Subtitle)</span>
+                
+                <div style="margin-bottom: 0.75rem;">
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Căn lề chữ (Alignment)</label>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn" id="btn-align-sub-left" onclick="setSlideTextAttribute('subtitleAlign', 'left')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Trái</button>
+                    <button class="btn" id="btn-align-sub-center" onclick="setSlideTextAttribute('subtitleAlign', 'center')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Giữa</button>
+                    <button class="btn" id="btn-align-sub-right" onclick="setSlideTextAttribute('subtitleAlign', 'right')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Phải</button>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 0.75rem;">
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Bù trừ Cỡ chữ (Size Offset)</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="slide-sub-size" min="-5" max="15" step="0.5" value="0"
+                      oninput="updateSlideTextAttribute('subtitleSize', this.value)">
+                    <span class="slider-value" id="val-sub-size">0px</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Dịch dọc Y (Vertical Y)</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="slide-sub-y" min="-100" max="100" step="1" value="0"
+                      oninput="updateSlideTextAttribute('subtitleY', this.value)">
+                    <span class="slider-value" id="val-sub-y">0px</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Badge position adjustment (For Cover layout) -->
+              <div id="badge-tuning-container" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-panel);">
+                <span class="control-label" style="font-weight: 700; display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px;">Hộp nổi bật / Badge</span>
+                
+                <div style="margin-bottom: 0.75rem;">
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Căn lề Badge (Alignment)</label>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn" id="btn-align-badge-left" onclick="setSlideTextAttribute('badgeAlign', 'left')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Trái</button>
+                    <button class="btn" id="btn-align-badge-center" onclick="setSlideTextAttribute('badgeAlign', 'center')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Giữa</button>
+                    <button class="btn" id="btn-align-badge-right" onclick="setSlideTextAttribute('badgeAlign', 'right')" style="flex: 1; padding: 6px; font-size: 10px; justify-content: center;">Phải</button>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="control-label" style="font-size: 10px; margin-bottom: 0.25rem; color: var(--text-tertiary);">Dịch dọc Y (Vertical Y)</label>
+                  <div class="slider-container">
+                    <input type="range" class="slider-input" id="slide-badge-y" min="-80" max="80" step="1" value="0"
+                      oninput="updateSlideTextAttribute('badgeY', this.value)">
+                    <span class="slider-value" id="val-badge-y">0px</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
 
         <!-- LAYOUT TAB -->
         <div id="layout-tab" class="tab-content">
@@ -1671,6 +1774,43 @@
         card.classList.toggle('active', card.dataset.layout === slide.layout);
       });
 
+      // Populate Fine-tuning Sliders & Alignments
+      const titleSzVal = slide.titleSize !== undefined ? slide.titleSize : 0;
+      const titleYVal = slide.titleY !== undefined ? slide.titleY : 0;
+      document.getElementById('slide-title-size').value = titleSzVal;
+      document.getElementById('slide-title-y').value = titleYVal;
+      document.getElementById('val-title-size').innerText = (titleSzVal > 0 ? '+' : '') + titleSzVal + 'px';
+      document.getElementById('val-title-y').innerText = (titleYVal > 0 ? '+' : '') + titleYVal + 'px';
+
+      const subSzVal = slide.subtitleSize !== undefined ? slide.subtitleSize : 0;
+      const subYVal = slide.subtitleY !== undefined ? slide.subtitleY : 0;
+      document.getElementById('slide-sub-size').value = subSzVal;
+      document.getElementById('slide-sub-y').value = subYVal;
+      document.getElementById('val-sub-size').innerText = (subSzVal > 0 ? '+' : '') + subSzVal + 'px';
+      document.getElementById('val-sub-y').innerText = (subYVal > 0 ? '+' : '') + subYVal + 'px';
+
+      const badgeYVal = slide.badgeY !== undefined ? slide.badgeY : 0;
+      document.getElementById('slide-badge-y').value = badgeYVal;
+      document.getElementById('val-badge-y').innerText = (badgeYVal > 0 ? '+' : '') + badgeYVal + 'px';
+
+      const titleAlign = slide.titleAlign || 'left';
+      document.getElementById('btn-align-title-left').classList.toggle('active', titleAlign === 'left');
+      document.getElementById('btn-align-title-center').classList.toggle('active', titleAlign === 'center');
+      document.getElementById('btn-align-title-right').classList.toggle('active', titleAlign === 'right');
+
+      const subtitleAlign = slide.subtitleAlign || 'left';
+      document.getElementById('btn-align-sub-left').classList.toggle('active', subtitleAlign === 'left');
+      document.getElementById('btn-align-sub-center').classList.toggle('active', subtitleAlign === 'center');
+      document.getElementById('btn-align-sub-right').classList.toggle('active', subtitleAlign === 'right');
+
+      const badgeAlign = slide.badgeAlign || 'left';
+      document.getElementById('btn-align-badge-left').classList.toggle('active', badgeAlign === 'left');
+      document.getElementById('btn-align-badge-center').classList.toggle('active', badgeAlign === 'center');
+      document.getElementById('btn-align-badge-right').classList.toggle('active', badgeAlign === 'right');
+
+      // Hide or show Badge tuning based on layout & text presence
+      document.getElementById('badge-tuning-container').style.display = (slide.layout === 'cover') ? 'block' : 'none';
+
       // Render the active preview and updates thumbnails
       renderActiveSlide();
       renderThumbnails();
@@ -1687,6 +1827,52 @@
       statCont.style.display = (layout === 'stat') ? 'block' : 'none';
       cornerBadgeCont.style.display = (layout === 'context' || layout === 'standard') ? 'block' : 'none';
     }
+
+    // Alignment and size fine-tuning handlers
+    function setSlideTextAttribute(attrKey, value) {
+      const slide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!slide) return;
+      slide[attrKey] = value;
+      
+      // Update buttons state
+      if (attrKey === 'titleAlign') {
+        document.getElementById('btn-align-title-left').classList.toggle('active', value === 'left');
+        document.getElementById('btn-align-title-center').classList.toggle('active', value === 'center');
+        document.getElementById('btn-align-title-right').classList.toggle('active', value === 'right');
+      } else if (attrKey === 'subtitleAlign') {
+        document.getElementById('btn-align-sub-left').classList.toggle('active', value === 'left');
+        document.getElementById('btn-align-sub-center').classList.toggle('active', value === 'center');
+        document.getElementById('btn-align-sub-right').classList.toggle('active', value === 'right');
+      } else if (attrKey === 'badgeAlign') {
+        document.getElementById('btn-align-badge-left').classList.toggle('active', value === 'left');
+        document.getElementById('btn-align-badge-center').classList.toggle('active', value === 'center');
+        document.getElementById('btn-align-badge-right').classList.toggle('active', value === 'right');
+      }
+
+      renderActiveSlide();
+    }
+
+    function updateSlideTextAttribute(attrKey, value) {
+      const slide = appState.slides.find(s => s.id === appState.activeSlideId);
+      if (!slide) return;
+      slide[attrKey] = Number(value);
+
+      // Update text indicators
+      if (attrKey === 'titleSize') {
+        document.getElementById('val-title-size').innerText = (value > 0 ? '+' : '') + value + 'px';
+      } else if (attrKey === 'titleY') {
+        document.getElementById('val-title-y').innerText = (value > 0 ? '+' : '') + value + 'px';
+      } else if (attrKey === 'subtitleSize') {
+        document.getElementById('val-sub-size').innerText = (value > 0 ? '+' : '') + value + 'px';
+      } else if (attrKey === 'subtitleY') {
+        document.getElementById('val-sub-y').innerText = (value > 0 ? '+' : '') + value + 'px';
+      } else if (attrKey === 'badgeY') {
+        document.getElementById('val-badge-y').innerText = (value > 0 ? '+' : '') + value + 'px';
+      }
+
+      renderActiveSlide();
+    }
+
 
     // ==========================================
     // SLIDE MANAGEMENT CRUD
@@ -2189,6 +2375,20 @@
       const textBody = contrast.body;
       const textMuted = contrast.muted;
 
+      // Helper to compute alignment attributes
+      function getAlignAttrs(align, defaultX, defaultAnchor = 'start') {
+        if (!align || align === 'left') {
+          return { x: defaultX, attrs: `text-anchor="${defaultAnchor}"` };
+        }
+        if (align === 'center') {
+          return { x: width / 2, attrs: 'text-anchor="middle"' };
+        }
+        if (align === 'right') {
+          return { x: width - defaultX, attrs: 'text-anchor="end"' };
+        }
+        return { x: defaultX, attrs: `text-anchor="${defaultAnchor}"` };
+      }
+
       // 3. Determine dynamic image container boundaries based on slide layout
       let defaultW = width;
       let defaultH = height;
@@ -2372,19 +2572,41 @@
           <line x1="20" y1="262" x2="310" y2="262" stroke="${accent}" stroke-width="0.5" opacity="0.8" />
           
           <!-- Large headline serif style -->
-          ${drawMultiLineText(slide.title || 'Tiêu đề lớn', 20, 290, 24, `font-family="${fontSerif}" font-size="20" fill="${textTitle}" font-weight="bold"`)}
+          ${(() => {
+            const align = slide.titleAlign || 'left';
+            const size = 20 + (Number(slide.titleSize) || 0);
+            const y = 290 + (Number(slide.titleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.title || 'Tiêu đề lớn', alignData.x, y, size + 4, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-weight="bold" ${alignData.attrs}`);
+          })()}
           
           <!-- Description / Subtitle -->
-          ${drawMultiLineText(slide.subtitle || 'Văn bản phụ đề', 20, 345, 14, `font-family="${fontSans}" font-size="9.5" fill="${textBody}" font-weight="400"`)}
+          ${(() => {
+            const align = slide.subtitleAlign || 'left';
+            const size = 9.5 + (Number(slide.subtitleSize) || 0);
+            const y = 345 + (Number(slide.subtitleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.subtitle || 'Văn bản phụ đề', alignData.x, y, size + 4, `font-family="${fontSans}" font-size="${size}" fill="${textBody}" font-weight="400" ${alignData.attrs}`);
+          })()}
           
           <!-- Role/Context Badge on bottom left -->
-          ${slide.badgeText ? `
-            <g transform="translate(20, 380)">
-              <rect x="0" y="0" width="160" height="20" rx="2" fill="${accent}" opacity="0.12" />
-              <rect x="0" y="0" width="2.5" height="20" fill="${accent}" />
-              <text x="8" y="13.5" font-family="${fontSans}" font-size="8.5" fill="${accent}" font-weight="600">${escapeHTML(slide.badgeText)}</text>
-            </g>
-          ` : ''}
+          ${slide.badgeText ? (() => {
+            const align = slide.badgeAlign || 'left';
+            const y = 380 + (Number(slide.badgeY) || 0);
+            let xTranslate = 20;
+            if (align === 'center') {
+              xTranslate = 165 - 80;
+            } else if (align === 'right') {
+              xTranslate = 310 - 160;
+            }
+            return `
+              <g transform="translate(${xTranslate}, ${y})">
+                <rect x="0" y="0" width="160" height="20" rx="2" fill="${accent}" opacity="0.12" />
+                <rect x="0" y="0" width="2.5" height="20" fill="${accent}" />
+                <text x="8" y="13.5" font-family="${fontSans}" font-size="8.5" fill="${accent}" font-weight="600">${escapeHTML(slide.badgeText)}</text>
+              </g>
+            `;
+          })() : ''}
           
           ${footerHandleEl}
         `;
@@ -2409,8 +2631,20 @@
           <line x1="20" y1="285" x2="310" y2="285" stroke="${accent}" stroke-width="0.5" opacity="0.3" />
 
           <!-- Narrative headline and lines -->
-          ${drawMultiLineText(slide.title || 'Tiêu đề context', 20, 310, 18, `font-family="${fontSerif}" font-size="14" fill="${textTitle}" font-weight="bold"`)}
-          ${drawMultiLineText(slide.subtitle || 'Dòng mô tả bối cảnh', 20, 355, 14, `font-family="${fontSans}" font-size="9" fill="${textBody}"`)}
+          ${(() => {
+            const align = slide.titleAlign || 'left';
+            const size = 14 + (Number(slide.titleSize) || 0);
+            const y = 310 + (Number(slide.titleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.title || 'Tiêu đề context', alignData.x, y, size + 4, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-weight="bold" ${alignData.attrs}`);
+          })()}
+          ${(() => {
+            const align = slide.subtitleAlign || 'left';
+            const size = 9 + (Number(slide.subtitleSize) || 0);
+            const y = 355 + (Number(slide.subtitleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.subtitle || 'Dòng mô tả bối cảnh', alignData.x, y, size + 4, `font-family="${fontSans}" font-size="${size}" fill="${textBody}" ${alignData.attrs}`);
+          })()}
           
           ${footerHandleEl}
         `;
@@ -2425,13 +2659,25 @@
           <!-- Alignment and formatting adjusted dynamically for theme -->
           ${isMutedTheme ? `
             <!-- Minimalist Centered Quote -->
-            ${drawMultiLineText(slide.title || 'Lời trích dẫn', width / 2, 318, 18, `font-family="${fontSerif}" font-size="12" fill="${textTitle}" font-style="italic" text-anchor="middle"`)}
+            ${(() => {
+              const align = slide.titleAlign || 'center';
+              const size = 12 + (Number(slide.titleSize) || 0);
+              const y = 318 + (Number(slide.titleY) || 0);
+              const alignData = getAlignAttrs(align, width / 2, 'middle');
+              return drawMultiLineText(slide.title || 'Lời trích dẫn', alignData.x, y, size + 6, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-style="italic" ${alignData.attrs}`);
+            })()}
             <line x1="125" y1="355" x2="205" y2="355" stroke="${accent}" stroke-width="0.5" opacity="0.5" />
             <text x="165" y="375" font-family="${fontSans}" font-size="8" fill="${accent}" font-weight="500" text-anchor="middle">${escapeHTML(slide.quoteAuthor || '— Khuyết danh')}</text>
           ` : `
             <!-- Moody Highlight Gold Quote -->
             <line x1="20" y1="300" x2="80" y2="300" stroke="${accent}" stroke-width="1.5" />
-            ${drawMultiLineText(slide.title || 'Lời trích dẫn', 20, 328, 18, `font-family="${fontSerif}" font-size="13" fill="${textTitle}" font-style="italic" font-weight="bold"`)}
+            ${(() => {
+              const align = slide.titleAlign || 'left';
+              const size = 13 + (Number(slide.titleSize) || 0);
+              const y = 328 + (Number(slide.titleY) || 0);
+              const alignData = getAlignAttrs(align, 20);
+              return drawMultiLineText(slide.title || 'Lời trích dẫn', alignData.x, y, size + 5, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-style="italic" font-weight="bold" ${alignData.attrs}`);
+            })()}
             <text x="20" y="380" font-family="${fontSans}" font-size="8.5" fill="${textMuted}">${escapeHTML(slide.quoteAuthor || '— góc nhìn cá nhân')}</text>
           `}
           
@@ -2459,8 +2705,20 @@
           <line x1="20" y1="295" x2="310" y2="295" stroke="${accent}" stroke-width="0.5" opacity="0.4" />
 
           <!-- Text rows -->
-          ${drawMultiLineText(slide.title || 'Tiêu đề tổng kết', 20, 318, 18, `font-family="${fontSerif}" font-size="14" fill="${textTitle}" font-weight="bold"`)}
-          ${drawMultiLineText(slide.subtitle || 'Dòng bài học triết lý đúc rút', 20, 360, 13, `font-family="${fontSans}" font-size="9" fill="${textBody}"`)}
+          ${(() => {
+            const align = slide.titleAlign || 'left';
+            const size = 14 + (Number(slide.titleSize) || 0);
+            const y = 318 + (Number(slide.titleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.title || 'Tiêu đề tổng kết', alignData.x, y, size + 4, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-weight="bold" ${alignData.attrs}`);
+          })()}
+          ${(() => {
+            const align = slide.subtitleAlign || 'left';
+            const size = 9 + (Number(slide.subtitleSize) || 0);
+            const y = 360 + (Number(slide.subtitleY) || 0);
+            const alignData = getAlignAttrs(align, 20);
+            return drawMultiLineText(slide.subtitle || 'Dòng bài học triết lý đúc rút', alignData.x, y, size + 4, `font-family="${fontSans}" font-size="${size}" fill="${textBody}" ${alignData.attrs}`);
+          })()}
           
           ${footerHandleEl}
         `;
@@ -2481,8 +2739,20 @@
           <line x1="24" y1="332" x2="150" y2="332" stroke="${accent}" stroke-width="0.75" opacity="0.8" />
           
           <!-- Label descriptions -->
-          ${drawMultiLineText(label, 24, 352, 14, `font-family="${fontSans}" font-size="9" fill="${textBody}" font-weight="500"`)}
-          ${drawMultiLineText(slide.subtitle || 'Thông tin phụ bổ sung cho số liệu', 24, 385, 12, `font-family="${fontSans}" font-size="8.5" fill="${textMuted}"`)}
+          ${(() => {
+            const align = slide.titleAlign || 'left';
+            const size = 9 + (Number(slide.titleSize) || 0);
+            const y = 352 + (Number(slide.titleY) || 0);
+            const alignData = getAlignAttrs(align, 24);
+            return drawMultiLineText(label, alignData.x, y, size + 5, `font-family="${fontSans}" font-size="${size}" fill="${textBody}" font-weight="500" ${alignData.attrs}`);
+          })()}
+          ${(() => {
+            const align = slide.subtitleAlign || 'left';
+            const size = 8.5 + (Number(slide.subtitleSize) || 0);
+            const y = 385 + (Number(slide.subtitleY) || 0);
+            const alignData = getAlignAttrs(align, 24);
+            return drawMultiLineText(slide.subtitle || 'Thông tin phụ bổ sung cho số liệu', alignData.x, y, size + 4, `font-family="${fontSans}" font-size="${size}" fill="${textMuted}" ${alignData.attrs}`);
+          })()}
           
           ${footerHandleEl}
         `;
@@ -2494,7 +2764,13 @@
           <rect x="0" y="320" width="${width}" height="120" fill="url(#bottomGrad)" opacity="0.8" />
           
           <text x="24" y="360" font-family="${fontSans}" font-size="7.5" fill="${accent}" font-weight="700" letter-spacing="3">${escapeHTML(seriesStr)}</text>
-          ${drawMultiLineText(slide.title || 'Tiêu đề Poster', 24, 385, 16, `font-family="${fontSerif}" font-size="15" fill="${textTitle}" font-weight="bold"`)}
+          ${(() => {
+            const align = slide.titleAlign || 'left';
+            const size = 15 + (Number(slide.titleSize) || 0);
+            const y = 385 + (Number(slide.titleY) || 0);
+            const alignData = getAlignAttrs(align, 24);
+            return drawMultiLineText(slide.title || 'Tiêu đề Poster', alignData.x, y, size + 5, `font-family="${fontSerif}" font-size="${size}" fill="${textTitle}" font-weight="bold" ${alignData.attrs}`);
+          })()}
           
           ${footerHandleEl}
         `;
